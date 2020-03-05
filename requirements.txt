@@ -1,4 +1,6 @@
 Django==2.2
+django-materialize==1.0.1a2
+django-materializecss-form==1.1.17
 gunicorn==20.0.4
 pytz==2019.3
 sqlparse==0.3.1

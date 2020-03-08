@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load materializecss %}
+
 {% block title %}Log-in{% endblock %}
 
 {% block content %}
@@ -13,8 +15,8 @@
 
     <div class="login-form">
         <form action="{% url 'login' %}" method="post">
-            {{ form.as_p }}
             {% csrf_token %}
+            {{ form|materializecss }}
             <input type="hidden" name="next" value="{{ next }}"/>
             <button class="btn waves-effect waves-light" type="submit" value="Log-in">Submit
                 <i class="material-icons right">send</i>

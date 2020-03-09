@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% load materializecss %}
+
+{% block title %}Bug Report{% endblock %}
+
+{% block content %}
+
+    <h1>Discovered a bug in our teleportation system?</h1>
+    <p>Please enter as much information as possible on the issue:</p>
+
+    <form action="." method="POST">
+        {{ form|materializecss }}
+        {% csrf_token %}
+        <button class="btn waves-effect waves-light" type="submit" value="Save bug report">Save bug report.
+            <i class="material-icons right">send</i>
+        </button>
+    </form>
+
+{% endblock %}

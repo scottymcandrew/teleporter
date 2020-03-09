@@ -3,11 +3,20 @@ from django.conf import settings
 from django.utils.text import slugify
 
 
+SEVERITY_CHOICES = (
+    ('critical', 'CRITICAL'),
+    ('high', 'HIGH'),
+    ('medium', 'MEDIUM'),
+    ('low', 'LOW')
+)
+
+
 class Bug(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='bugs_reported', on_delete=models.CASCADE)
     slug = models.SlugField(max_length=200, blank=True)
     title = models.CharField(max_length=250)
     description = models.TextField()
+    severity = models.CharField(max_length=8, choices=SEVERITY_CHOICES, default='low')
     user_votes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='bugs_voted', blank=True)
     created = models.DateTimeField(auto_now_add=True, db_index=True)
 

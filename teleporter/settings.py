@@ -121,8 +121,15 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
 # For use in Django's in-built authentication views.
 # Where to redirect if no 'next' parameter is within request
 LOGIN_REDIRECT_URL = 'user_dashboard'
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
+
+# Write emails to console during dev
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+

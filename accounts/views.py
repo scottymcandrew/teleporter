@@ -2,7 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from .forms import LoginForm
+from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
+from .models import Profile
+from django.contrib import messages
 
 
 def authenticate_user(request):
@@ -30,6 +32,53 @@ def authenticate_user(request):
     # Load login template
     return render(request, 'registration/login.html',
                   {'form': form})
+
+
+def register(request):
+    """
+    Allow new user registrations
+    """
+    if request.method == 'POST':
+        user_form = UserRegistrationForm(request.POST)
+        if user_form.is_valid():
+            # We're not saving the new user object straight away
+            new_user = user_form.save(commit=False)
+            # Set password method of user model takes care of encryption
+            new_user.set_password(user_form.cleaned_data['password'])
+            new_user.save()
+            # Create an associated profile for the new user
+            Profile.objects.create(user=new_user)
+            return render(request, 'accounts/register_done.html',
+                          {'new_user': new_user})
+    else:
+        # Empty form if GET request
+        user_form = UserRegistrationForm()
+
+    return render(request, 'accounts/register.html',
+                  {'user_form': user_form})
+
+
+@login_required
+def edit(request):
+    """
+    Allow users to edit their details and profile
+    """
+    if request.method == 'POST':
+        user_form = UserEditForm(instance=request.user, data=request.POST)
+        profile_form = ProfileEditForm(instance=request.user.profile, data=request.POST, files=request.FILES)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, '  Profile has been updated successfully. Awesome!')
+        else:
+            messages.error(request, '  Uh oh, something went wrong updating your profile')
+    else:
+        user_form = UserEditForm(instance=request.user)
+        profile_form = ProfileEditForm(instance=request.user.profile)
+
+    return render(request, 'accounts/edit.html',
+                  {'user_form': user_form,
+                   'profile_form': profile_form})
 
 
 @login_required

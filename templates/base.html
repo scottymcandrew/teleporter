@@ -31,13 +31,19 @@
             </ul>
         {% endif %}
         <ul class="right hide-on-med-and-down">
-            <li><a href="#"><i class="material-icons left">info</i> About Us</a></li>
+            <li><a href="#"><i class="material-icons left">info</i></a></li>
             {% if request.user.is_authenticated %}
                 <li><a href="#"><i class="material-icons left">bug_report</i>Bugs</a></li>
                 <li><a href="#"><i class="material-icons left">widgets</i>Features</a></li>
                 <!-- Dropdown Trigger -->
                 <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">My Teleport<i
                         class="material-icons left right">arrow_drop_down</i></a></li>
+            {% endif %}
+            <!-- Change login/logout link depending on auth status -->
+            {% if request.user.is_authenticated %}
+                <li><a href="{% url "logout" %}">Hey {{ request.user.first_name }}! <strong>Logout</strong></a></li>
+            {% else %}
+                <li><a href="{% url "login" %}"><strong>Log-in</strong></a></li>
             {% endif %}
         </ul>
         <ul id="nav-mobile" class="sidenav">
@@ -47,13 +53,33 @@
                 <li><a href="#"><i class="material-icons left">bug_report</i> My Bugs</a></li>
                 <li><a href="#"><i class="material-icons left">widgets</i>Features</a></li>
                 <li><a href="#"><i class="material-icons left">where_to_vote</i> My Feature Votes</a></li>
-
             {% endif %}
             <li><a href="#"><i class="material-icons left">info</i> About Us</a></li>
+            <li class="divider"></li>
+            <!-- Change login/logout link depending on auth status -->
+            {% if request.user.is_authenticated %}
+                <li><a href="{% url "logout" %}">Hey {{ request.user.first_name }}! <strong>Logout</strong></a></li>
+            {% else %}
+                <li><a href="{% url "login" %}"><strong>Log-in</strong></a></li>
+            {% endif %}
         </ul>
         <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons left purple-text">menu</i></a>
     </div>
 </nav>
+
+<!-- Section to deal with Django messages -->
+<div class="container">
+    {% if messages %}
+        <ul class="messages collection">
+            {% for message in messages %}
+                <li class="collection-item active {{ message.tags }}">
+                    {{ message|safe }}
+                    <a href="#" class="white close">  X</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
 
 <div class="container">
     {% block content %}

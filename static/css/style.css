@@ -15,6 +15,10 @@ p {
   line-height: 2rem;
 }
 
+.messages {
+  margin-left: 20px;
+}
+
 .sidenav-trigger {
   color: #26a69a;
 }

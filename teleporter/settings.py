@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.postgres',
     'materialize',
     'materializecssform',
 ]
@@ -51,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'teleporter.urls'
@@ -140,4 +142,3 @@ LOGOUT_URL = 'logout'
 
 # Write emails to console during dev
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-

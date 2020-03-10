@@ -1,9 +1,9 @@
-(function($){
-  $(function(){
+(function ($) {
+    $(function () {
 
-    $('.sidenav').sidenav();
-    $('.parallax').parallax();
-    $('.dropdown-trigger').dropdown();
+        $('.sidenav').sidenav();
+        $('.parallax').parallax();
+        $('.dropdown-trigger').dropdown();
 
-  }); // end of document ready
+    }); // end of document ready
 })(jQuery); // end of jQuery name space

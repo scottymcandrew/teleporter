@@ -26,7 +26,8 @@ SECRET_KEY = '0kav7edrjvt!l!3!!3yg8@_ih%7wl605i5(3fqhu!ubghya^q3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['sdm-teleportation.herokuapp.com']
+ALLOWED_HOSTS = ['sdm-teleportation.herokuapp.com',
+                 '127.0.0.1']
 
 # Application definition
 

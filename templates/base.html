@@ -20,25 +20,12 @@
 
 <nav class="deep-purple lighten-5" role="navigation">
     <div class="nav-wrapper container">
-        <a id="logo-container" href="#" class="brand-logo"><img class="responsive-img" alt="brand logo"
+        <a id="logo-container" href="{% url 'user_dashboard' %}" class="brand-logo"><img class="responsive-img" alt="brand logo"
                                                                 src="{% static "images/teleport64px.png" %}"></a>
-        {% if request.user.is_authenticated %}
-            <!-- Dropdown Structure -->
-            <ul id="dropdown1" class="dropdown-content">
-                <li><a href="#!"><i class="material-icons left left">dashboard</i> My Dashboard</a></li>
-                <li><a href="#!"><i class="material-icons left">report_problem</i> My Bugs</a></li>
-                <li><a href="#!"><i class="material-icons left">where_to_vote</i> My Feature Votes</a></li>
-            </ul>
-        {% endif %}
         <ul class="right hide-on-med-and-down">
-            <li><a href="#"><i class="material-icons left">info</i></a></li>
-            {% if request.user.is_authenticated %}
-                <li><a href="#"><i class="material-icons left">bug_report</i>Bugs</a></li>
-                <li><a href="#"><i class="material-icons left">widgets</i>Features</a></li>
-                <!-- Dropdown Trigger -->
-                <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">My Teleport<i
-                        class="material-icons left right">arrow_drop_down</i></a></li>
-            {% endif %}
+            <li><a href="#"><i class="material-icons left">info</i>About Us</a></li>
+            <li><a href="#"><i class="material-icons left">widgets</i>Features</a></li>
+            <li><a href="{% url "all_bugs" %}"><i class="material-icons left">bug_report</i>Bugs</a></li>
             <!-- Change login/logout link depending on auth status -->
             {% if request.user.is_authenticated %}
                 <li><a href="{% url "logout" %}">Hey {{ request.user.first_name }}! <strong>Logout</strong></a></li>
@@ -47,13 +34,9 @@
             {% endif %}
         </ul>
         <ul id="nav-mobile" class="sidenav">
-            {% if request.user.is_authenticated %}
-                <li><a href="#"><i class="material-icons left">dashboard</i> My Dashboard</a></li>
-                <li><a href="#"><i class="material-icons left">bug_report</i>Bugs</a></li>
-                <li><a href="#"><i class="material-icons left">bug_report</i> My Bugs</a></li>
-                <li><a href="#"><i class="material-icons left">widgets</i>Features</a></li>
-                <li><a href="#"><i class="material-icons left">where_to_vote</i> My Feature Votes</a></li>
-            {% endif %}
+            <li><a href="#"><i class="material-icons left">dashboard</i> My Dashboard</a></li>
+            <li><a href="{% url "all_bugs" %}"><i class="material-icons left">bug_report</i>Bugs</a></li>
+            <li><a href="#"><i class="material-icons left">widgets</i>Features</a></li>
             <li><a href="#"><i class="material-icons left">info</i> About Us</a></li>
             <li class="divider"></li>
             <!-- Change login/logout link depending on auth status -->
@@ -67,6 +50,20 @@
     </div>
 </nav>
 
+<!-- Floating Button -->
+<div class="col s12">
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large red">
+            <i class="large material-icons">mode_edit</i>
+        </a>
+        <ul>
+            <li><a href="{% url 'user_dashboard' %}" class="btn-floating blue"><i class="material-icons"></i>My Dashboard</a></li>
+            <li><a href="#" class="btn-floating green"><i class="material-icons">where_to_vote</i></a></li>
+            <li><a href="{% url 'create_bug_report' %}" class="btn-floating red"><i class="material-icons">report_problem</i></a></li>
+        </ul>
+    </div>
+</div>
+
 <!-- Section to deal with Django messages -->
 <div class="container">
     {% if messages %}
@@ -74,7 +71,7 @@
             {% for message in messages %}
                 <li class="collection-item active {{ message.tags }}">
                     {{ message|safe }}
-                    <a href="#" class="white close">  X</a>
+                    <a href="#" class="white close"> X</a>
                 </li>
             {% endfor %}
         </ul>
@@ -91,5 +88,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script src="{% static "js/init.js" %}"></script>
 <script src="{% static "js/main.js" %}"></script>
+
+<script>
+    // Script for floating button
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('.fixed-action-btn');
+        var instances = M.FloatingActionButton.init(elems, {
+            direction: 'top'
+        });
+    });
+</script>
+
 </body>
 </html>

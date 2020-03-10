@@ -17,4 +17,12 @@
         </button>
     </form>
 
+    <!-- Initialise the choices field for the form -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('select');
+            var instances = M.FormSelect.init(elems);
+        });
+    </script>
+
 {% endblock %}

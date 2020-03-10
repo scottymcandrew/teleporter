@@ -32,6 +32,8 @@ ALLOWED_HOSTS = ['sdm-teleportation.herokuapp.com',
 # Application definition
 
 INSTALLED_APPS = [
+    'materialize',
+    'materializecssform',
     'accounts',
     'bugs',
     'django.contrib.admin',
@@ -41,8 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
-    'materialize',
-    'materializecssform',
 ]
 
 MIDDLEWARE = [

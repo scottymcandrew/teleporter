@@ -28,7 +28,7 @@ class Bug(models.Model):
     status = models.CharField(max_length=10, default='OPEN')
 
     def get_absolute_url(self):
-        return reverse('bugs:detail', args=[self.id])
+        return reverse('bug_detail', args=[self.id])
 
     def __str__(self):
         return self.title

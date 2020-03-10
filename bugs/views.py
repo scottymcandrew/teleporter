@@ -34,6 +34,4 @@ def create_bug_report(request):
             return redirect(new_bug.get_absolute_url())
     else:
         form = CreateBugReport()
-
-    return render(request, 'bugs/create_bug_report.html',
-                  {'form': form})
+        return render(request, 'bugs/create_bug_report.html', {'form': form})

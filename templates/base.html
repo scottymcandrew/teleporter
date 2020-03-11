@@ -18,7 +18,7 @@
 </head>
 <body>
 
-<nav class="deep-purple lighten-5" role="navigation">
+<nav class="purple lighten-4" role="navigation">
     <div class="nav-wrapper container">
         <a id="logo-container" href="{% url 'user_dashboard' %}" class="brand-logo"><img class="responsive-img"
                                                                                          alt="brand logo"
@@ -54,13 +54,17 @@
 <!-- Floating Button -->
 <div class="col s12">
     <div class="fixed-action-btn">
-        <a class="btn-floating btn-large red">
+        <a class="btn-floating btn-large purple">
             <i class="large material-icons">mode_edit</i>
         </a>
         <ul>
-            <li><a href="{% url 'user_dashboard' %}" class="btn-floating blue"><i class="material-icons"></i>My Dashboard</a></li>
-            <li><a href="#" class="btn-floating green"><i class="material-icons">where_to_vote</i></a></li>
-            <li><a href="{% url 'create_bug_report' %}" class="btn-floating red"><i class="material-icons">report_problem</i></a>
+            <li><a href="{% url 'user_dashboard' %}" class="btn-floating blue tooltipped" data-position="left" data-tooltip="My Dashboard">
+                <i class="material-icons"></i>My
+                Dashboard</a></li>
+            <li><a href="#" class="btn-floating green tooltipped" data-position="left" data-tooltip="Request feature">
+                <i class="material-icons">where_to_vote</i></a></li>
+            <li><a href="{% url 'create_bug_report' %}" class="btn-floating red tooltipped" data-position="left" data-tooltip="Report new bug">
+                <i class="material-icons">report_problem</i></a>
             </li>
         </ul>
     </div>
@@ -98,6 +102,14 @@
         var instances = M.FloatingActionButton.init(elems, {
             direction: 'top'
         });
+    });
+</script>
+
+<script>
+    // Enable tooltips
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('.tooltipped');
+        var instances = M.Tooltip.init(elems);
     });
 </script>
 

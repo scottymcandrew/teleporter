@@ -4,19 +4,21 @@ from django.urls import reverse
 
 
 class Bug(models.Model):
-
+    """
+    Model to hold details of bugs reported to the system
+    """
     SEVERITY_CHOICES = [
-        ('CRITICAL', 'Critical'),
-        ('HIGH', 'High'),
-        ('MEDIUM', 'Medium'),
-        ('LOW', 'Low'),
+        ('Critical', 'Critical'),
+        ('High', 'High'),
+        ('Medium', 'Medium'),
+        ('Low', 'Low'),
     ]
 
     BUG_STATUS = [
-        ('OPEN', 'Open'),
-        ('ACTIVE', 'Active'),
-        ('TESTING', 'Testing'),
-        ('RESOLVED', 'Resolved'),
+        ('Open', 'Open'),
+        ('Active', 'Active'),
+        ('Testing', 'Testing'),
+        ('Resolved', 'Resolved'),
     ]
 
     author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='bugs_reported', on_delete=models.CASCADE)
@@ -32,3 +34,22 @@ class Bug(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class BugComment(models.Model):
+    """
+    Model to store comments made against individual bugs
+    """
+    # Many to one relationship: a bug can have many comments
+    bug = models.ForeignKey(Bug, on_delete=models.CASCADE, related_name='comments')
+    # Authenticated users can comment
+    name = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='bugs_commented', on_delete=models.CASCADE)
+    body = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ('created',)
+
+    def __str__(self):
+        return 'Comment by {} on {}'.format(self.name, self.bug)

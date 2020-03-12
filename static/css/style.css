@@ -19,6 +19,10 @@ p {
   margin-left: 20px;
 }
 
+.bug-cards{
+  margin-top: 20px;
+}
+
 .sidenav-trigger {
   color: #26a69a;
 }

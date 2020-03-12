@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Bug
-from .forms import CreateBugReport
+from .models import Bug, BugComment
+from .forms import CreateBugReport, BugCommentForm
 
 
 @login_required
@@ -15,8 +15,31 @@ def all_bugs(request):
 @login_required
 def bug_detail(request, id):
     bug = get_object_or_404(Bug, id=id)
+
+    # Comments
+    comments = bug.comments.all()
+
+    new_comment = None
+
+    if request.method == 'POST':
+        # A new comment is being posted
+        bug_comment_form = BugCommentForm(data=request.POST)
+        if bug_comment_form.is_valid():
+            # Comment object created but not saved to DB yet
+            new_comment = bug_comment_form.save(commit=False)
+            # Assign new comment to bug
+            new_comment.bug = bug
+            # Save to DB
+            new_comment.save()
+    else:
+        # Get request return empty form
+        bug_comment_form = BugCommentForm
+
     return render(request, 'bugs/bug/bug_detail.html',
-                  {'bug': bug})
+                  {'bug': bug,
+                   'comments': comments,
+                   'new_comment': new_comment,
+                   'bug_comment_form': bug_comment_form})
 
 
 @login_required

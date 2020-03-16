@@ -27,11 +27,13 @@
                 <div class="card-action">
                     <div class="row">
                         <div class="col s12">
-                            <span class="left"><a href="{% url "bug_detail" bug.id %}"
-                                                  class="btn-floating btn-large waves-effect waves-light purple tooltipped"
-                                                  data-position="right" data-tooltip="Edit My Bug">
+                            {% if request.user == bug.author %}
+                                <span class="left"><a href="{% url "bug_detail" bug.id %}"
+                                                      class="btn-floating btn-large waves-effect waves-light purple tooltipped"
+                                                      data-position="right" data-tooltip="Edit My Bug">
                                     <i class="material-icons">border_color</i></a>
-                            </span>
+                                </span>
+                            {% endif %}
                             <span class="right">
                                 {% with total_votes=bug.votes.count users_vote=bug.votes.all %}
                                     <a href="#" data-id="{{ bug.id }}"

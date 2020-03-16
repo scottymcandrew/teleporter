@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% load materializecss %}
+
+{% block title %}Bug Search{% endblock %}
+
+{% block content %}
+
+    {% if query %}
+
+        <h3>Bugs containing {{ query }}</h3>
+
+        <h4>
+            {% with results.count as total_results %}
+                Found {{ total_results }} result{{ total_results|pluralize }}
+            {% endwith %}
+        </h4>
+
+        <ul class="collection">
+            {% for bug in results %}
+
+                <li class="collection-item avatar bug-list-item">
+                    <a href="{{ bug.get_absolute_url }}">{{ bug.title }}</a>
+                    {{ bug.description|truncatewords:6 }}
+                </li>
+            {% empty %}
+                <li class="collection-item avatar bug-list-item">
+                    <a href="{% url "bug_search" %}">Nothing found. Please try searching again.</a>
+                </li>
+
+            {% endfor %}
+        </ul>
+
+    {% else %}
+
+        <h3>Search for posts</h3>
+        <form action="." method="GET">
+            {{ form|materializecss }}
+            <button class="btn waves-effect waves-light" type="submit" value="Search">Search <i class="material-icons right">search</i></button>
+        </form>
+
+    {% endif %}
+
+{% endblock %}

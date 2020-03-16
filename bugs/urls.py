@@ -7,4 +7,5 @@ urlpatterns = [
     path('create_bug_report/', views.create_bug_report, name='create_bug_report'),
     path('detail/<int:id>/', views.bug_detail, name='bug_detail'),
     path('vote/', views.bug_vote, name='bug_vote'),
+    path('search/', views.bug_search, name='bug_search')
 ]

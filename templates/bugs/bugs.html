@@ -5,7 +5,7 @@
     <!-- Heading -->
     <div class="row">
         <div class="col s12">
-            <h2>The Official Teleportation Bug Tracker</h2>
+            <h3>The Official Teleportation Bug Tracker</h3>
             <div class="divider"></div>
         </div>
     </div>
@@ -47,9 +47,9 @@
                 <p>Severity: <strong>{{ bug.severity }}</strong><br>
                     Raised by: <em>{{ bug.author }} on {{ bug.created }}</em>
                 </p>
-                <a href="#!" class="secondary-content"><i class="material-icons">thumb_up</i></a>
+                <div class="secondary-content"><i class="material-icons">thumb_up</i> {{ bug.votes.count }}</div>
             </li>
         {% endfor %}
     </ul>
-
+    {% include 'pagination.html' with page=bugs %}
 {% endblock %}

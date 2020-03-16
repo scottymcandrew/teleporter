@@ -1,18 +1,30 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from common.decorators import ajax_required
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-from common.decorators import ajax_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Bug, BugComment, Vote
 from .forms import CreateBugReport, BugCommentForm
 
 
 @login_required
 def all_bugs(request):
-    bugs = Bug.objects.all().order_by('votes', '-created')
+    bug_list = Bug.objects.all().order_by('votes', '-created')
+    paginator = Paginator(bug_list, 4)
+    page = request.GET.get('page')
+    try:
+        bugs = paginator.page(page)
+    except PageNotAnInteger:
+        # If the page is not an int, return the first page
+        bugs = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range deliver last page
+        bugs = paginator.page(paginator.num_pages)
     return render(request, 'bugs/bugs.html',
-                  {'bugs': bugs})
+                  {'bugs': bugs,
+                   'page': page})
 
 
 @login_required

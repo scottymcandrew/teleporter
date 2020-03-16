@@ -28,8 +28,6 @@ class CreateBugReport(forms.ModelForm):
 
 class BugCommentForm(forms.ModelForm):
 
-    # Need to automatically set the name field based on authenticated user
-    
     class Meta:
         model = BugComment
-        fields = ('name', 'body')
+        fields = ('comment',)

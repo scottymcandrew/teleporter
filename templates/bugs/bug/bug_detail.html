@@ -14,14 +14,29 @@
                     <span class="card-title">{{ bug.title }}</span>
                 </div>
                 <div class="card-action">
-                    <a href="{% url "bug_detail" bug.id %}">
-                        <button class="btn-floating btn waves-effect waves-light deep-purple">
-                            <i class="material-icons">border_color</i></button>
-                    </a>
-                    <a href="#" class="btn-floating btn waves-effect waves-light">
-                        <i class="material-icons right">thumb_up</i>
-                    </a>
-                    <span class="new badge" data-badge-caption="Votes">{{ bug.user_votes }}</span>
+                    <div class="row">
+                        <div class="col s3">
+                            <a href="{% url "bug_detail" bug.id %}">
+                                <button class="btn-floating btn waves-effect waves-light deep-purple">
+                                    <i class="material-icons">border_color</i></button>
+                            </a>
+                        </div>
+                        <div class="col s3">
+                            {% with total_votes=bug.votes.count users_vote=bug.votes.all %}
+                                <a href="#" data-id="{{ bug.id }}"
+                                   data-action="{% if request.user in users_vote %}un{% endif %}vote"
+                                   class="vote btn-floating btn waves-effect waves-light">
+                                    <i class="vote-icon material-icons right">
+                                        {% if request.user not in users_vote %}thumb_up{% else %}
+                                            thumb_down{% endif %}</i>
+                                </a>
+                                <span class="badge new vote-count" data-badge-caption="">
+                                    <span class="total">{{ total_votes }}</span>
+                                    vote{{ total_votes|pluralize }}
+                                </span>
+                            {% endwith %}
+                        </div>
+                    </div>
                 </div>
                 <div class="card-action">
                     <h6><strong>Description:</strong></h6>
@@ -36,11 +51,12 @@
             {% for comment in comments %}
 
                 <div class="card">
-                    <div class="card-content purple">
-                        <span class="card-title">Comment {{ forloop.counter }} from {{ comment.name }}, on {{ comment.created }}</span>
+                    <div class="card-content">
+                        <span class="card-title">Comment from <em>{{ comment.author }}</em></span>
+                        <p>{{ comment.comment|linebreaks }}</p>
                     </div>
                     <div class="card-action">
-                        <p>{{ comment.body|linebreaks }}</p>
+                        <p>Created on: {{ comment.created }}</p>
                     </div>
                 </div>
             {% empty %}
@@ -49,9 +65,9 @@
             {% endfor %}
 
             {% if new_comment %}
-                <h2>Your comment has been registered. Unless of course if it was rude!</h2>
+                <h4>Your comment has been registered. Unless of course if it was rude!</h4>
             {% else %}
-                <h2>Add a new comment</h2>
+                <h4>Add a new comment</h4>
                 <form action="." method="POST">
                     {{ bug_comment_form|materializecss }}
                     {% csrf_token %}
@@ -65,4 +81,29 @@
         </div>
     </div>
 
+{% endblock %}
+
+{% block domready %}
+    <!-- JS to handle voting functionality, based on JQuery -->
+    $('a.vote').click(function(e){
+    e.preventDefault();
+    $.post('{% url "bug_vote" %}',
+    {
+    id: $(this).data('id'),
+    action: $(this).data('action')
+    },
+    function(data){
+    if (data['status'] == 'ok')
+    {
+    var previous_action = $('a.vote').data('action');
+    // toggle data-action
+    $('a.vote').data('action', previous_action == 'vote' ? 'unvote' : 'vote');
+    // toggle vote icon
+    $('i.vote-icon').text(previous_action == 'vote' ? 'thumb_down' : 'thumb_up');
+    // update total votes
+    var previous_votes = parseInt($('span.vote-count .total').text());
+    $('span.vote-count .total').text(previous_action == 'vote' ? previous_votes + 1 : previous_votes - 1);
+    }
+    });
+    });
 {% endblock %}

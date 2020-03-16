@@ -25,7 +25,7 @@ class Bug(models.Model):
     title = models.CharField(max_length=250)
     description = models.TextField()
     severity = models.CharField(max_length=10, default='LOW')
-    user_votes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='bugs_voted')
+    votes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='bug_votes', through='Vote')
     created = models.DateTimeField(auto_now_add=True, db_index=True)
     status = models.CharField(max_length=10, default='OPEN')
 
@@ -43,13 +43,22 @@ class BugComment(models.Model):
     # Many to one relationship: a bug can have many comments
     bug = models.ForeignKey(Bug, on_delete=models.CASCADE, related_name='comments')
     # Authenticated users can comment
-    name = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='bugs_commented', on_delete=models.CASCADE)
-    body = models.TextField()
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='bugs_commented', on_delete=models.CASCADE)
+    comment = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.BooleanField(default=True)
 
     class Meta:
-        ordering = ('created',)
+        ordering = ('-created',)
 
     def __str__(self):
-        return 'Comment by {} on {}'.format(self.name, self.bug)
+        return 'Comment by {} on {}'.format(self.author, self.bug)
+
+
+class Vote(models.Model):
+    """
+    Separate Vote class since we want to enforce an authenticated user to vote only once per comment
+    """
+    voter = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    bug = models.ForeignKey(Bug, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, db_index=True)

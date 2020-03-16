@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Bug, BugComment
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from common.decorators import ajax_required
+from .models import Bug, BugComment, Vote
 from .forms import CreateBugReport, BugCommentForm
 
 
 @login_required
 def all_bugs(request):
-    bugs = Bug.objects.all().order_by('user_votes', '-created')
+    bugs = Bug.objects.all().order_by('votes', '-created')
     return render(request, 'bugs/bugs.html',
                   {'bugs': bugs})
 
@@ -29,6 +32,7 @@ def bug_detail(request, id):
             new_comment = bug_comment_form.save(commit=False)
             # Assign new comment to bug
             new_comment.bug = bug
+            new_comment.author = request.user
             # Save to DB
             new_comment.save()
     else:
@@ -58,3 +62,22 @@ def create_bug_report(request):
     else:
         form = CreateBugReport()
         return render(request, 'bugs/create_bug_report.html', {'form': form})
+
+
+@ajax_required
+@login_required
+@require_POST
+def bug_vote(request):
+    bug_id = request.POST.get('id')
+    action = request.POST.get('action')
+    if bug_id and action:
+        try:
+            bug = Bug.objects.get(id=bug_id)
+            if action == 'vote':
+                bug.votes.add(request.user)
+            else:
+                bug.votes.remove(request.user)
+            return JsonResponse({'status': 'ok'})
+        except:
+            pass
+    return JsonResponse({'status': 'ko'})

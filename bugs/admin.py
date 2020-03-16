@@ -10,6 +10,6 @@ class BugAdmin(admin.ModelAdmin):
 
 @admin.register(BugComment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'bug', 'created')
+    list_display = ('author', 'bug', 'created')
     list_filter = ('created', 'updated')
-    search_fields = ('name', 'body')
+    search_fields = ('author', 'body')

@@ -23,6 +23,11 @@ p {
   margin-top: 20px;
 }
 
+.card-heading-icon {
+  margin-left: 20px;
+  margin-top: 15px;
+}
+
 .sidenav-trigger {
   color: #26a69a;
 }

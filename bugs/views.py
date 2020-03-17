@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
+from django.views.generic.edit import DeleteView
 from django.contrib import messages
 from django.contrib.postgres.search import SearchVector
 from django.contrib.auth.decorators import login_required
@@ -110,3 +112,19 @@ def bug_search(request):
                   {'form': form,
                    'query': query,
                    'results': results})
+
+
+class BugDelete(DeleteView):
+    model = Bug
+    success_url = reverse_lazy('all_bugs')
+
+
+# @login_required
+# @require_POST
+# def bug_delete(request, id):
+#     """
+#     Delete bug. Only the original author can do this
+#     """
+#     bug = get_object_or_404(Bug, id=id)
+#     if request.user == bug.author:
+#         bug.delete()

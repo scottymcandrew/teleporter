@@ -1,4 +1,16 @@
-<form method="post">{% csrf_token %}
-    <p>Are you sure you want to delete "{{ object }}"?</p>
-    <input type="submit" value="Confirm">
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form method="post">
+    {% csrf_token %}
+    <p>Have you really thought this through? Do you <em>really</em> want to delete "{{ object }}", forever, and ever?</p>
+    <button class="btn waves-effect waves-light" type="submit" value="Confirm">Confirm Deletion
+            <i class="material-icons right">send</i>
+    </button>
+
+    <p>NO! I need to get out of here</p>
+    <a href="{% url 'all_bugs' %}" class="btn waves-effect red">CANCEL!</a>
 </form>
+
+{% endblock %}

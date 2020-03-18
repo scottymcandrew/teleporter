@@ -37,9 +37,9 @@
         {% for bug in bugs %}
             <li class="collection-item avatar bug-list-item">
                 <a href="{% url "bug_detail" bug.id %}"><i class="material-icons circle
-                    {% if bug.severity == 'LOW' %} blue
-                    {% elif bug.severity == 'MEDIUM' %} yellow
-                    {% elif bug.severity == 'HIGH' %} purple
+                    {% if bug.severity == 'Low' %} blue
+                    {% elif bug.severity == 'Medium' %} yellow
+                    {% elif bug.severity == 'High' %} purple
                     {% else %} red
                     {% endif %}">build</i></a>
                 <span class="title">Bug:   <em>{{ bug.title }}</em></span>

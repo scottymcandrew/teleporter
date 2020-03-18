@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
-from django.views.generic.edit import DeleteView
+from django.views.generic.edit import UpdateView, DeleteView
 from django.contrib import messages
 from django.contrib.postgres.search import SearchVector
 from django.contrib.auth.decorators import login_required
@@ -38,6 +38,17 @@ def bug_detail(request, id):
     # Comments
     comments = bug.comments.all()
 
+    paginator = Paginator(comments, 5)
+    page = request.GET.get('page')
+    try:
+        comments = paginator.page(page)
+    except PageNotAnInteger:
+        # If the page is not an int, return the first page
+        comments = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range deliver last page
+        comments = paginator.page(paginator.num_pages)
+
     new_comment = None
 
     if request.method == 'POST':
@@ -51,6 +62,8 @@ def bug_detail(request, id):
             new_comment.author = request.user
             # Save to DB
             new_comment.save()
+            messages.success(request, 'Your comment has been published.')
+            return redirect('bug_detail', id)
     else:
         # Get request return empty form
         bug_comment_form = BugCommentForm
@@ -59,6 +72,7 @@ def bug_detail(request, id):
                   {'bug': bug,
                    'comments': comments,
                    'new_comment': new_comment,
+                   'page': page,
                    'bug_comment_form': bug_comment_form})
 
 
@@ -113,6 +127,14 @@ def bug_search(request):
                   {'form': form,
                    'query': query,
                    'results': results})
+
+
+class BugEdit(SuccessMessageMixin, UpdateView):
+    model = Bug
+    fields = ['title', 'description', 'severity', 'status']
+    template_name_suffix = '_update_form'
+    success_url = reverse_lazy('all_bugs')
+    success_message = "Awesome, you just updated %(title)!"
 
 
 class BugDelete(SuccessMessageMixin, DeleteView):

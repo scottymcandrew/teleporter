@@ -16,11 +16,13 @@
                             <ul>
                                 <li class="card-title">{{ bug.title }}</li>
                                 {% if request.user == bug.author %}
-                                    <li class="card-heading-icon left"><a href="{% url "bug_detail" bug.id %}"
-                                                                          class="btn-floating btn waves-effect waves-light purple tooltipped"
-                                                                          data-position="bottom"
-                                                                          data-tooltip="Edit My Bug">
-                                        <i class="material-icons">border_color</i></a>
+                                    <li class="card-heading-icon left">
+                                        <a href="{% url "bug_edit" bug.id %}"
+                                           class="btn-floating btn waves-effect waves-light purple tooltipped"
+                                           data-position="bottom"
+                                           data-tooltip="Edit My Bug">
+                                            <i class="material-icons">border_color</i>
+                                        </a>
                                     </li>
                                     <li class="card-heading-icon left">
                                         <a href="{% url 'bug_delete' bug.id %}"
@@ -33,7 +35,7 @@
                                 <li class="card-heading-icon right">
                                     {% with total_votes=bug.votes.count users_vote=bug.votes.all %}
                                         <a href="#" data-id="{{ bug.id }}"
-                                           data-action="{% if request.user in users_vote %}un{% endif %}vote"
+                                           data-action="{% if request.user in users_vote %}Un-{% endif %}Vote"
                                            class="vote btn-floating btn waves-effect waves-light tooltipped purple"
                                            data-position="bottom" data-tooltip="Vote for Bug">
                                             <i class="vote-icon material-icons right">
@@ -77,18 +79,16 @@
 
             {% endfor %}
 
-            {% if new_comment %}
-                <h4>Your comment has been registered. Unless of course if it was rude!</h4>
-            {% else %}
-                <h4>Add a new comment</h4>
-                <form action="." method="POST">
-                    {{ bug_comment_form|materializecss }}
-                    {% csrf_token %}
-                    <button class="btn waves-effect waves-light" type="submit" value="Add comment">Add comment
-                        <i class="material-icons right">send</i>
-                    </button>
-                </form>
-            {% endif %}
+            {% include 'pagination.html' with page=comments %}
+
+            <h4>Add a new comment</h4>
+            <form action="." method="POST">
+                {{ bug_comment_form|materializecss }}
+                {% csrf_token %}
+                <button class="btn waves-effect waves-light" type="submit" value="Add comment">Add comment
+                    <i class="material-icons right">send</i>
+                </button>
+            </form>
 
             {% with comments.count as total_comments %}
                 <h2>{{ total_comments }} comment{{ total_comments|pluralize }}</h2>

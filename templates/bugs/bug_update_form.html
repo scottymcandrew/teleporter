@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% load materializecss %}
+
+{% block title %}Update my Bug{% endblock %}
+
+{% block content %}
+
+    <h3>Update my Bug</h3>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form|materializecss }}
+        <button class="btn waves-effect waves-light" type="submit" value="Update">Confirm Updates
+            <i class="material-icons right">send</i>
+        </button>
+
+        <p>I've changed my mind, this bug is as good as it gets!</p>
+        <a href="{% url 'all_bugs' %}" class="btn waves-effect red">CANCEL!</a>
+    </form>
+
+{% endblock %}

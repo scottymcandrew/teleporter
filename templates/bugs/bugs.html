@@ -20,33 +20,29 @@
                     <i class="material-icons">report_problem</i></a>
             </span>
             <span class="right">
-                <a href="{% url 'bug_search' %}" class="btn-floating btn-large waves-effect waves-light tooltipped"#}
+                <a href="{% url 'bug_search' %}" class="btn-floating btn-large waves-effect waves-light tooltipped"
                    data-position="left" data-tooltip="Search for bugs">
-                    <i class="material-icons">search</i></a>
+                    <i class="material-icons purple">search</i></a>
             </span>
         </div>
-        {#        <div class="col s3 right-align">#}
-        {#            <a href="{% url 'bug_search' %}" class="btn-floating btn-large waves-effect waves-light tooltipped"#}
-        {#               data-position="left" data-tooltip="Search for bugs">#}
-        {#                <i class="material-icons">search</i></a>#}
-        {#        </div>#}
     </div>
 
     <!-- Bug list -->
     <ul class="collection">
         {% for bug in bugs %}
             <li class="collection-item avatar bug-list-item">
-                <a href="{% url "bug_detail" bug.id %}"><i class="material-icons circle
+                <a href="{% url "bug_detail" bug.id %}"><i class="material-icons tooltipped circle
                     {% if bug.severity == 'Low' %} blue
                     {% elif bug.severity == 'Medium' %} yellow
                     {% elif bug.severity == 'High' %} purple
                     {% else %} red
-                    {% endif %}">build</i></a>
+                    {% endif %}" data-position="bottom" data-tooltip="Bug Details">build</i></a>
                 <span class="title">Bug:   <em>{{ bug.title }}</em></span>
                 <p>Severity: <strong>{{ bug.severity }}</strong><br>
                     Raised by: <em>{{ bug.author }} on {{ bug.created }}</em>
                 </p>
-                <div class="secondary-content"><i class="material-icons">thumb_up</i> {{ bug.votes.count }}</div>
+                <div class="secondary-content purple-text"><i class="material-icons">thumb_up</i> {{ bug.votes.count }}
+                </div>
             </li>
         {% endfor %}
     </ul>

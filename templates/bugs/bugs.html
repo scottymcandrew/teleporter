@@ -30,20 +30,23 @@
     <!-- Bug list -->
     <ul class="collection">
         {% for bug in bugs %}
-            <li class="collection-item avatar bug-list-item">
-                <a href="{% url "bug_detail" bug.id %}"><i class="material-icons tooltipped circle
+            {% if bug.status != 'Resolved' %}
+                <li class="collection-item avatar bug-list-item">
+                    <a href="{% url "bug_detail" bug.id %}"><i class="material-icons tooltipped circle
                     {% if bug.severity == 'Low' %} blue
                     {% elif bug.severity == 'Medium' %} yellow
                     {% elif bug.severity == 'High' %} purple
                     {% else %} red
                     {% endif %}" data-position="bottom" data-tooltip="Bug Details">build</i></a>
-                <span class="title">Bug:   <em>{{ bug.title }}</em></span>
-                <p>Severity: <strong>{{ bug.severity }}</strong><br>
-                    Raised by: <em>{{ bug.author }} on {{ bug.created }}</em>
-                </p>
-                <div class="secondary-content purple-text"><i class="material-icons">thumb_up</i> {{ bug.votes.count }}
-                </div>
-            </li>
+                    <span class="title">Bug:   <em>{{ bug.title }}</em></span>
+                    <p>Severity: <strong>{{ bug.severity }}</strong><br>
+                        Raised by: <em>{{ bug.author }} on {{ bug.created }}</em>
+                    </p>
+                    <div class="secondary-content purple-text"><i
+                            class="material-icons">thumb_up</i> {{ bug.votes.count }}
+                    </div>
+                </li>
+            {% endif %}
         {% endfor %}
     </ul>
     {% include 'pagination.html' with page=bugs %}

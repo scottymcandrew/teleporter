@@ -9,13 +9,17 @@ from common.decorators import ajax_required
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .models import Bug, BugComment, Vote
+from .models import Bug, BugComment
 from .forms import CreateBugReport, BugCommentForm, SearchForm
 
 
 @login_required
 def all_bugs(request):
-    bug_list = Bug.objects.all().order_by('votes', '-created')
+    # The following duplicates bugs for each vote. Can't count direct on a M2M field?
+    # bug_list = Bug.objects.all().order_by('votes', '-created')
+    bug_list = Bug.objects.all().order_by('-created')
+    for bug in bug_list:
+        print(bug)
     paginator = Paginator(bug_list, 4)
     page = request.GET.get('page')
     try:

@@ -95,30 +95,9 @@
 <!-- <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"> </script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script src="{% static "js/init.js" %}"></script>
 <script src="{% static "js/main.js" %}"></script>
-
-<script>
-    var csrftoken = Cookies.get('csrftoken');
-
-    function csrfSafeMethod(method) {
-        // these HTTP methods do not require CSRF protection
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-
-    $.ajaxSetup({
-        beforeSend: function (xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            }
-        }
-    });
-    $(document).ready(function () {
-        {% block domready %}
-        {% endblock %}
-    });
-</script>
 
 <script>
     // Script for floating button
@@ -135,6 +114,48 @@
     document.addEventListener('DOMContentLoaded', function () {
         var elems = document.querySelectorAll('.tooltipped');
         var instances = M.Tooltip.init(elems);
+    });
+</script>
+
+{#<script src="{% static "js/vote.js" %}"></script>#}
+
+<script>
+    var csrftoken = Cookies.get('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+    $(document).ready(function () {
+        $('a.vote').click(function (e) {
+            e.preventDefault();
+            $.post('{% url "bug_vote" %}',
+                {
+                    id: $(this).data('id'),
+                    action: $(this).data('action')
+                },
+                function (data) {
+                    if (data['status'] === 'ok') {
+                        var previous_action = $('a.vote').data('action');
+                        // toggle data-action
+                        $('a.vote').data('action', previous_action === 'vote' ? 'unvote' : 'vote');
+                        // toggle vote icon
+                        $('i.vote-icon').text(previous_action === 'vote' ? 'thumb_down' : 'thumb_up');
+                        // update total votes
+                        var previous_votes = parseInt($('span.vote-count .total').text());
+                        $('span.vote-count .total').text(previous_action == 'vote' ? previous_votes + 1 : previous_votes - 1);
+                    }
+                });
+        });
     });
 </script>
 

@@ -24,10 +24,10 @@ class Bug(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='bugs_reported', on_delete=models.CASCADE)
     title = models.CharField(max_length=250)
     description = models.TextField()
-    severity = models.CharField(max_length=10, default='LOW')
-    votes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='bug_votes', through='Vote')
+    severity = models.CharField(max_length=10, default='Low')
+    votes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='bug_votes', blank=True)
     created = models.DateTimeField(auto_now_add=True, db_index=True)
-    status = models.CharField(max_length=10, default='OPEN')
+    status = models.CharField(max_length=10, default='Open')
 
     def get_absolute_url(self):
         return reverse('bug_detail', args=[self.id])
@@ -53,12 +53,3 @@ class BugComment(models.Model):
 
     def __str__(self):
         return 'Comment by {} on {}'.format(self.author, self.bug)
-
-
-class Vote(models.Model):
-    """
-    Separate Vote class since we want to enforce an authenticated user to vote only once per comment
-    """
-    voter = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    bug = models.ForeignKey(Bug, on_delete=models.CASCADE)
-    created = models.DateTimeField(auto_now_add=True, db_index=True)

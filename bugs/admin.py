@@ -4,7 +4,7 @@ from .models import Bug, BugComment
 
 @admin.register(Bug)
 class BugAdmin(admin.ModelAdmin):
-    list_display = ['title', 'author', 'created']
+    list_display = ['title', 'author', 'created', 'severity', 'status']
     list_filter = ['created']
 
 

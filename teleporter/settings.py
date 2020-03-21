@@ -32,8 +32,6 @@ ALLOWED_HOSTS = ['sdm-teleportation.herokuapp.com',
 # Application definition
 
 INSTALLED_APPS = [
-    'materialize',
-    'materializecssform',
     'accounts',
     'bugs',
     'django.contrib.admin',
@@ -43,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
+    'crispy_forms',
+    'bootstrap_pagination',
 ]
 
 MIDDLEWARE = [
@@ -143,3 +143,5 @@ LOGOUT_URL = 'logout'
 
 # Write emails to console during dev
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

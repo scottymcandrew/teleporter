@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load materializecss %}
+{% load crispy_forms_tags %}
 
 {% block title %}Bug Search{% endblock %}
 
@@ -35,8 +35,9 @@
 
         <h3>Search for posts</h3>
         <form action="." method="GET">
-            {{ form|materializecss }}
-            <button class="btn waves-effect waves-light" type="submit" value="Search">Search <i class="material-icons right">search</i></button>
+            {{ form|crispy }}
+            {% csrf_token %}
+            <button class="btn btn-secondary" type="submit" value="Search">Search</button>
         </form>
 
     {% endif %}

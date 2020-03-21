@@ -1,28 +1,26 @@
 {% extends 'base.html' %}
 
-{% load materializecss %}
+{% load crispy_forms_tags %}
 
 {% block title %}Bug Report{% endblock %}
 
 {% block content %}
 
-    <h1>Discovered a bug in our teleportation system?</h1>
-    <p>Please enter as much information as possible on the issue:</p>
+    <h2>Discovered a bug in our teleportation system?</h2>
+    <p class="text-primary">Please enter as much information as possible on the issue:</p>
 
     <form action="." method="POST">
-        {{ form|materializecss }}
+        {{ form|crispy }}
         {% csrf_token %}
-        <button class="btn waves-effect waves-light" type="submit" value="Save bug report">Save bug report
-            <i class="material-icons right">send</i>
-        </button>
+        <button class="btn btn-secondary" type="submit" value="Save bug report">Save bug report</button>
     </form>
 
-    <!-- Initialise the choices field for the form -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var elems = document.querySelectorAll('select');
-            var instances = M.FormSelect.init(elems);
-        });
-    </script>
+    <!-- THIS MAY NO LONGER BE REQUIRED WITH BOOTSTRAP - TO VERIFY -->
+{#    <script>#}
+{#        document.addEventListener('DOMContentLoaded', function () {#}
+{#            var elems = document.querySelectorAll('select');#}
+{#            var instances = M.FormSelect.init(elems);#}
+{#        });#}
+{#    </script>#}
 
 {% endblock %}

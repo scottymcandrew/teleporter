@@ -10,8 +10,6 @@
         {{ user_form.as_p }}
         {{ profile_form.as_p }}
         {% csrf_token %}
-        <button class="btn waves-effect waves-light" type="submit" value="Save changes">Save your changes.
-            <i class="material-icons right">send</i>
-        </button>
+        <button class="btn btn-secondary" type="submit" value="Save Changes">Save your changes</button>
     </form>
 {% endblock %}

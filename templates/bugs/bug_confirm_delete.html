@@ -9,12 +9,10 @@
 <form method="post">
     {% csrf_token %}
     <p>Have you really thought this through? Do you <em>really</em> want to delete "{{ object }}", forever, and ever?</p>
-    <button class="btn waves-effect waves-light" type="submit" value="Confirm">Confirm Deletion
-            <i class="material-icons right">send</i>
-    </button>
+    <button class="btn btn-secondary" type="submit" value="Confirm">Confirm Deletion</button>
 
     <p>NO! I need to get out of here</p>
-    <a href="{% url 'all_bugs' %}" class="btn waves-effect red">CANCEL!</a>
+    <a href="{% url 'all_bugs' %}" class="btn btn-danger">CANCEL!</a>
 </form>
 
 {% endblock %}

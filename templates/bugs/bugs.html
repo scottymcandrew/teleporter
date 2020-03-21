@@ -1,53 +1,95 @@
 {% extends 'base.html' %}
 
+{% block title %}Bugs{% endblock %}
+
 {% block content %}
 
     <!-- Heading -->
-    <div class="row">
-        <div class="col s12">
-            <h3>The Official Teleportation Bug Tracker</h3>
-            <div class="divider"></div>
-        </div>
+    <div class="row section-heading">
+        <h2>
+            Bugs<br>
+            <small class="text-primary">Issues with you teleportation experience? Report them here!</small>
+        </h2>
     </div>
 
     <!-- Bug list toolbar -->
-    <div class="row">
-        <div class="col s12">
-            <span class="left">
-                <a href="{% url 'create_bug_report' %}"
-                   class="btn-floating btn-large waves-effect waves-light red tooltipped" data-position="right"
-                   data-tooltip="Report new bug">
-                    <i class="material-icons">report_problem</i></a>
-            </span>
-            <span class="right">
-                <a href="{% url 'bug_search' %}" class="btn-floating btn-large waves-effect waves-light tooltipped"
-                   data-position="left" data-tooltip="Search for bugs">
-                    <i class="material-icons purple">search</i></a>
-            </span>
+    <div class="row bug-toolbar">
+        <div class="col-sm-12 d-flex justify-content-between">
+            <a href="{% url 'create_bug_report' %}"
+               data-placement="bottom"
+               data-toggle="tooltip" title=""
+               data-original-title="Create New Bug"
+               class="btn btn-secondary"
+               role="button"><i class="fas fa-plus-circle fa-2x"></i></a>
+            <a href="{% url 'bug_search' %}"
+               data-placement="bottom"
+               data-toggle="tooltip" title=""
+               data-original-title="Search for Bugs"
+               class="btn btn-secondary"
+               role="button"><i class="fas fa-search fa-2x"></i></a>
         </div>
     </div>
 
     <!-- Bug list -->
-    <ul class="collection">
-        {% for bug in bugs %}
-            {% if bug.status != 'Resolved' %}
-                <li class="collection-item avatar bug-list-item">
-                    <a href="{% url "bug_detail" bug.id %}"><i class="material-icons tooltipped circle
-                    {% if bug.severity == 'Low' %} blue
-                    {% elif bug.severity == 'Medium' %} yellow
-                    {% elif bug.severity == 'High' %} purple
-                    {% else %} red
-                    {% endif %}" data-position="bottom" data-tooltip="Bug Details">build</i></a>
-                    <span class="title">Issue:   <em>{{ bug.title }}</em></span>
-                    <p>Severity: <strong>{{ bug.severity }}</strong><br>
-                        Raised by: <em>{{ bug.author }} on {{ bug.created }}</em>
-                    </p>
-                    <div class="secondary-content purple-text"><i
-                            class="material-icons">thumb_up</i> {{ bug.votes.count }}
-                    </div>
-                </li>
-            {% endif %}
-        {% endfor %}
-    </ul>
-    {% include 'pagination.html' with page=bugs %}
+    <div class="container-fluid bug-list-container">
+        <ul class="list-group">
+            {% for bug in bugs %}
+                {% if bug.status != 'Resolved' %}
+                    <li class="list-group-item">
+                        <div class="row bug-list-item-container">
+                            <div class="col">
+                                <i class="fas fa-bug fa-3x
+                                              {% if bug.severity == 'Low' %} text-info
+                                              {% elif bug.severity == 'Medium' %} text-warning
+                                              {% elif bug.severity == 'High' %} text-secondary
+                                              {% else %} text-danger
+                                              {% endif %}"
+                                   data-placement="bottom"
+                                   data-toggle="tooltip" title=""
+                                   data-original-title="Severity: {{ bug.severity }}">
+                                </i>
+                            </div>
+                            <div class="col align-self-center">
+                                <h5 class="font-weight-bold"><a href="{% url "bug_detail" bug.id %}">{{ bug.title }}</a>
+                                </h5>
+                            </div>
+                            <div class="col d-flex justify-content-around">
+                                <div class="bug-status-icon">
+                                    <i class="fas fa-comments fa-2x"></i>
+                                    <span class="badge badge-secondary badge-pill">{{ bug.comments.count }}</span>
+                                </div>
+                                <div class="bug-status-icon">
+                                    <i class="fas fa-thumbs-up fa-2x"
+                                       data-placement="bottom"
+                                       data-toggle="tooltip" title=""
+                                       data-original-title="View bug details to vote!"></i>
+                                    <span class="badge badge-secondary badge-pill">{{ bug.votes.count }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row bug-list-item-footer d-flex justify-content-between">
+                            <span class="badge
+                            {% if bug.status == Open %}
+                            badge-secondary
+                            {% elif bug.status == Active %}
+                            badge-secondary
+                            {% elif bug.status == Testing %}
+                            badge-secondary
+                            {% else %}
+                            badge-secondary
+                            {% endif %}
+                            ">STATUS: {{ bug.status }}</span>
+                            <span class="badge badge-primary">Raised by: <em>{{ bug.author }}</em> on {{ bug.created }}</span>
+                        </div>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="row bug-pages">
+        <div class="col-12">
+            {% include 'pagination.html' with page=bugs %}
+        </div>
+    </div>
 {% endblock %}

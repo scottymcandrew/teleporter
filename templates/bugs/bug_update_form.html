@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load materializecss %}
+{% load crispy_forms_tags %}
 
 {% block title %}Update my Bug{% endblock %}
 
@@ -10,13 +10,11 @@
 
     <form method="post">
         {% csrf_token %}
-        {{ form|materializecss }}
-        <button class="btn waves-effect waves-light" type="submit" value="Update">Confirm Updates
-            <i class="material-icons right">send</i>
-        </button>
+        {{ form|crispy }}
+        <button class="btn btn-secondary" type="submit" value="Update">Confirm Updates</button>
 
         <p>I've changed my mind, this bug is as good as it gets!</p>
-        <a href="{% url 'all_bugs' %}" class="btn waves-effect red">CANCEL!</a>
+        <a href="{% url 'all_bugs' %}" class="btn btn-danger">CANCEL!</a>
     </form>
 
 {% endblock %}

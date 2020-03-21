@@ -1,11 +1,5 @@
 <!-- Pagination template for displaying multiple items in blocks e.g. bug list -->
 
-<ul class="pagination">
-    <li class="{% if not page.has_previous %}disabled{% endif %}">
-        <a href="{% if page.has_previous %}?page={{ page.previous_page_number }}{% endif %}"><i class="material-icons">chevron_left</i></a>
-    </li>
-    <li class="waves-effec"> {{ page.number }} of {{ page.paginator.num_pages }} </li>
-    <li class="{% if not page.has_next %}disabled{% endif %}">
-        <a href="{% if page.has_next %}?page={{ page.next_page_number }}{% endif %}"><i class="material-icons">chevron_right</i></a>
-    </li>
-</ul>
+{% load bootstrap_pagination %}
+
+{% bootstrap_paginate page range=10 show_prev_next="false" show_first_last="true" %}

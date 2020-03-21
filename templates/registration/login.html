@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load materializecss %}
+{% load crispy_forms_tags %}
 
 {% block title %}Log-in{% endblock %}
 
@@ -17,11 +17,9 @@
     <div class="login-form">
         <form action="{% url 'login' %}" method="post">
             {% csrf_token %}
-            {{ form|materializecss }}
+            {{ form|crispy }}
             <input type="hidden" name="next" value="{{ next }}"/>
-            <button class="btn waves-effect waves-light" type="submit" value="Log-in">Submit
-                <i class="material-icons right">send</i>
-            </button>
+            <button class="btn btn-secondary" type="submit" value="Log-In">Log In</button>
         </form>
         <p><a href="{% url "password_reset" %}">Oh no! Have you forgotten your password?</a></p>
     </div>

@@ -1,70 +1,22 @@
 /* Custom Stylesheet */
-/**
- * Use this file to override Materialize files so you can update
- * the core Materialize files in the future
- *
- * Made By MaterializeCSS.com
- */
 
-nav ul a,
-nav .brand-logo {
-  color: #444;
+body {
+    padding-top: 100px;
 }
 
-p {
-  line-height: 2rem;
+.section-heading {
+    margin-top: 20px;
 }
 
-.messages {
-  margin-left: 20px;
+.bug-toolbar {
+    margin: 30px 0;
 }
 
-.bug-cards {
-  margin-top: 20px;
+.bug-pages {
+    margin-top: 15px;
 }
 
-.card-heading-icon {
-  margin-left: 20px;
-  margin-top: 15px;
-}
-
-.sidenav-trigger {
-  color: #26a69a;
-}
-
-.parallax-container {
-  min-height: 380px;
-  line-height: 0;
-  height: auto;
-  color: rgba(255,255,255,.9);
-}
-  .parallax-container .section {
-    width: 100%;
-  }
-
-@media only screen and (max-width : 992px) {
-  .parallax-container .section {
-    position: absolute;
-    top: 40%;
-  }
-  #index-banner .section {
-    top: 10%;
-  }
-}
-
-@media only screen and (max-width : 600px) {
-  #index-banner .section {
-    top: 0;
-  }
-}
-
-.icon-block {
-  padding: 0 15px;
-}
-.icon-block .material-icons {
-  font-size: inherit;
-}
-
-footer.page-footer {
-  margin: 0;
+.bug-list-item-footer {
+    margin-top: 15px;
+    margin-left: 5px;
 }

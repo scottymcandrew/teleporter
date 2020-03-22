@@ -90,6 +90,8 @@ def create_bug_report(request):
             # assign current user to the bug
             new_bug.author = request.user
             new_bug.save()
+            # Add a vote automatically for requesting user (of course!)
+            new_bug.votes.add(request.user)
             messages.success(request, 'Bug reported successfully to our team')
             # redirect to new created bug detail view
             return redirect(new_bug.get_absolute_url())

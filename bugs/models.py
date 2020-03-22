@@ -25,7 +25,7 @@ class Bug(models.Model):
     title = models.CharField(max_length=250)
     description = models.TextField()
     severity = models.CharField(max_length=10, default='Low')
-    votes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='bug_votes', blank=True)
+    votes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='bug_votes', through='BugVote')
     created = models.DateTimeField(auto_now_add=True, db_index=True)
     status = models.CharField(max_length=10, default='Open')
 
@@ -43,7 +43,7 @@ class BugComment(models.Model):
     # Many to one relationship: a bug can have many comments
     bug = models.ForeignKey(Bug, on_delete=models.CASCADE, related_name='comments')
     # Authenticated users can comment
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='bugs_commented', on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='bugs_commented', on_delete=models.CASCADE, blank=True)
     comment = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.BooleanField(default=True)
@@ -53,3 +53,12 @@ class BugComment(models.Model):
 
     def __str__(self):
         return 'Comment by {} on {}'.format(self.author, self.bug)
+
+
+class BugVote(models.Model):
+    """
+    Separate Bug Vote class used as a through field on the M2M relationship
+    """
+    voter = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    bug = models.ForeignKey(Bug, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)

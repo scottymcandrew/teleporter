@@ -17,19 +17,18 @@
                 <small>Created by: <strong>{{ bug.author }}</strong>, on {{ bug.created }}</small>
             </div>
             <div class="col-6">
-                    {% with total_votes=bug.votes.count users_vote=bug.votes.all %}
-                        <a href="#" data-id="{{ bug.id }}"
-                           data-action="{% if request.user in users_vote %}un{% endif %}vote"
-                           class="vote btn">
-                            <i class="fas fa-2x text-secondary
-                                 {% if request.user not in users_vote %}fa-thumbs-up
-                                 {% else %}fa-thumbs-down"{% endif %}></i>
-                        </a>
-                        <span class="badge badge-secondary badge-pill vote-count">
+                {% with total_votes=bug.votes.count users_vote=bug.votes.all %}
+                    <!-- If the user is the author, disallow removal of their vote -->
+                    <a href="#" data-id="{% if request.user == bug.author %}DISABLED{% endif %}{{ bug.id }}"
+                       data-action="{% if request.user in users_vote %}un{% endif %}vote"
+                       class="vote btn btn-secondary">
+                        <i class="fas fa-2x vote-icon {% if request.user not in users_vote %}fa-thumbs-up{% else %}fa-thumbs-down{% endif %}"></i>
+                    </a>
+                    <span class="badge badge-primary badge-pill vote-count">
                                         <span class="total">{{ total_votes }}</span>
                                         vote{{ total_votes|pluralize }}
                     </span>
-                    {% endwith %}
+                {% endwith %}
             </div>
         </div>
         {% if request.user == bug.author %}

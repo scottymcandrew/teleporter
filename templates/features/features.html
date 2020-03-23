@@ -33,10 +33,29 @@
     </div>
 
     <!-- Features list -->
-    <div class="container-fluid bug-list-container">
-        <ul class="list-group">
-            <li class="list-group-item">FEATURES WILL APPEAR HERE</li>
-        </ul>
-    </div>
+    {% for feature in features %}
+        <div class="card mb-3">
+            <h3 class="card-header">{{ features.title }}</h3>
+            <div class="card-body">
+                <h5 class="card-title">Status: {{ features.status }}</h5>
+                <h6 class="card-subtitle text-muted">{{ features.author }}, {{ features.created }}</h6>
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{ features.description }}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Cras justo odio</li>
+                <li class="list-group-item">Dapibus ac facilisis in</li>
+                <li class="list-group-item">Vestibulum at eros</li>
+            </ul>
+            <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>
+            <div class="card-footer text-muted">
+                2 days ago
+            </div>
+        </div>
+    {% endfor %}
 
 {% endblock %}

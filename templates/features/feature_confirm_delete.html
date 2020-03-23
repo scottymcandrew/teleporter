@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
-{% block title %}Delete my Bug{% endblock %}
+{% block title %}Delete my Feature{% endblock %}
 
 {% block content %}
 
-    <h3>Delete my Bug</h3>
+    <h3>Delete my Feature</h3>
 
 <form method="post">
     {% csrf_token %}
-    <p>Have you really thought this through? Do you <em>really</em> want to delete "{{ object }}", forever, and ever?</p>
+    <p>You really don't want this feature anymore? Do you <em>really</em> want to delete "{{ object }}", forever, and ever?</p>
     <button class="btn btn-secondary" type="submit" value="Confirm">Confirm Deletion</button>
     <br>
     <p class="mb-1 mt-4">NO! I need to get out of here</p>

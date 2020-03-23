@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ feature.title }}{% endblock %}
+
+{% block content %}
+
+    <div class="jumbotron">
+        <h3>{{ feature.title }}</h3>
+        <p>{{ feature.description }}</p>
+        <hr class="my-4">
+        <div class="feature-details row">
+            <div class="col-9">
+                <p>Current status: {{ feature.status }}</p>
+                <small>Created by: <strong>{{ feature.author }}</strong>, on {{ feature.created }}</small>
+            </div>
+            <div class="col-3 d-flex justify-content-end align-items-center">
+                {% with total_votes=feature.votes.count users_vote=feature.votes.all %}
+                    <!-- If the user is the author, disallow removal of their vote -->
+                    <a href="#" data-id="{% if request.user == feature.author %}DISABLED{% endif %}{{ feature.id }}"
+                       data-action="{% if request.user in users_vote %}un{% endif %}vote"
+                       class="vote btn btn-secondary">
+                        <i class="fas fa-2x vote-icon {% if request.user not in users_vote %}fa-thumbs-up{% else %}fa-thumbs-down{% endif %}"></i>
+                    </a>
+                    <span class="badge badge-primary badge-pill vote-count align-self-start mt-2 ml-2">
+                                        <span class="total">{{ total_votes }}</span>
+                                        vote{{ total_votes|pluralize }}
+                    </span>
+                {% endwith %}
+            </div>
+        </div>
+        {% if request.user == feature.author %}
+            <hr class="my-4">
+            <h4>Feature Owner Danger Zone...</h4>
+            <br>
+            <span class="lead">
+                <a class="btn btn-primary btn-lg" href="{% url "feature_edit" feature.id %}" role="button">Edit</a>
+            </span>
+            <span class="lead">
+                <a class="btn btn-danger btn-lg" href="{% url 'feature_delete' feature.id %}" role="button">*Delete</a>
+            </span>
+        {% endif %}
+    </div>
+
+    <!-- Comment cards -->
+    <div class="list-group">
+        {% for comment in comments %}
+
+            <div class="list-group-item list-group-item-action flex-column align-items-start active mb-4">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ comment.author }}</h5>
+                    <small>{{ comment.created }}</small>
+                </div>
+                <p class="mb-1 mt-4">{{ comment.comment|linebreaks }}</p>
+            </div>
+
+        {% empty %}
+            <div class="col">
+                <p class="text-secondary">There are no comments yet... how sad :-(</p>
+            </div>
+
+        {% endfor %}
+    </div>
+
+    {% include 'pagination.html' with page=comments %}
+
+    <form action="." method="POST">
+        <legend>Add a new comment</legend>
+        {{ feature_comment_form|crispy }}
+        {% csrf_token %}
+        <button class="btn btn-secondary mb-4" type="submit" value="Add comment">Add comment</button>
+    </form>
+
+{% endblock %}

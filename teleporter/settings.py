@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['sdm-teleportation.herokuapp.com',
 INSTALLED_APPS = [
     'accounts',
     'bugs',
+    'features',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

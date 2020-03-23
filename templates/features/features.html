@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Features{% endblock %}
+
+{% block content %}
+
+    <!-- Heading -->
+    <div class="row section-heading">
+        <div class="col-12">
+            <h2 class="ml-3">
+                Features<br>
+                <small class="text-primary">Here are the list of current features. You can request one here too!</small>
+            </h2>
+        </div>
+    </div>
+
+    <!-- Features toolbar -->
+    <div class="row feature-toolbar">
+        <div class="col-sm-12 d-flex justify-content-between">
+            <a href="{% url 'request_feature' %}"
+               data-placement="bottom"
+               data-toggle="tooltip" title=""
+               data-original-title="Request New Feature"
+               class="btn btn-secondary"
+               role="button"><i class="fas fa-plus-circle fa-2x"></i></a>
+            <a href="{% url 'feature_search' %}"
+               data-placement="bottom"
+               data-toggle="tooltip" title=""
+               data-original-title="Search for Existing Features"
+               class="btn btn-secondary"
+               role="button"><i class="fas fa-search fa-2x"></i></a>
+        </div>
+    </div>
+
+    <!-- Features list -->
+    <div class="container-fluid bug-list-container">
+        <ul class="list-group">
+            <li class="list-group-item">FEATURES WILL APPEAR HERE</li>
+        </ul>
+    </div>
+
+{% endblock %}

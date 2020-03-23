@@ -6,10 +6,12 @@
 
     <!-- Heading -->
     <div class="row section-heading">
-        <h2>
-            Bugs<br>
-            <small class="text-primary">Issues with you teleportation experience? Report them here!</small>
-        </h2>
+        <div class="col-12">
+            <h2 class="ml-3">
+                Bugs<br>
+                <small class="text-primary">Issues with you teleportation experience? Report them here!</small>
+            </h2>
+        </div>
     </div>
 
     <!-- Bug list toolbar -->
@@ -37,8 +39,8 @@
                 {% if bug.status != 'Resolved' %}
                     <li class="list-group-item">
                         <div class="row bug-list-item-container">
-                            <div class="col-1">
-                                <i class="fas fa-bug fa-3x
+                            <div class="col-2">
+                                <i class="fas fa-bug fa-2x
                                               {% if bug.severity == 'Low' %} text-info
                                               {% elif bug.severity == 'Medium' %} text-warning
                                               {% elif bug.severity == 'High' %} text-secondary
@@ -49,17 +51,17 @@
                                    data-original-title="Severity: {{ bug.severity }}">
                                 </i>
                             </div>
-                            <div class="col-8 align-self-center">
+                            <div class="col-7 align-self-center">
                                 <h5 class="font-weight-bold"><a href="{% url "bug_detail" bug.id %}">{{ bug.title }}</a>
                                 </h5>
                             </div>
                             <div class="col-3 d-flex justify-content-around">
                                 <div class="bug-status-icon">
-                                    <i class="fas fa-comments fa-2x text-secondary"></i>
+                                    <i class="fas fa-comments fa-lg text-secondary"></i>
                                     <span class="badge badge-secondary badge-pill bg-primary">{{ bug.comments.count }}</span>
                                 </div>
                                 <div class="bug-status-icon">
-                                    <i class="fas fa-thumbs-up fa-2x text-secondary"
+                                    <i class="fas fa-thumbs-up fa-lg text-secondary"
                                        data-placement="bottom"
                                        data-toggle="tooltip" title=""
                                        data-original-title="View bug details to vote!"></i>
@@ -88,7 +90,7 @@
     </div>
 
     <div class="row bug-pages">
-        <div class="col-12">
+        <div class="col-12 ml-3">
             {% include 'pagination.html' with page=bugs %}
         </div>
     </div>

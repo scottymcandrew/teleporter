@@ -37,7 +37,7 @@
                 {% if bug.status != 'Resolved' %}
                     <li class="list-group-item">
                         <div class="row bug-list-item-container">
-                            <div class="col">
+                            <div class="col-1">
                                 <i class="fas fa-bug fa-3x
                                               {% if bug.severity == 'Low' %} text-info
                                               {% elif bug.severity == 'Medium' %} text-warning
@@ -49,21 +49,21 @@
                                    data-original-title="Severity: {{ bug.severity }}">
                                 </i>
                             </div>
-                            <div class="col align-self-center">
+                            <div class="col-8 align-self-center">
                                 <h5 class="font-weight-bold"><a href="{% url "bug_detail" bug.id %}">{{ bug.title }}</a>
                                 </h5>
                             </div>
-                            <div class="col d-flex justify-content-around">
+                            <div class="col-3 d-flex justify-content-around">
                                 <div class="bug-status-icon">
-                                    <i class="fas fa-comments fa-2x"></i>
-                                    <span class="badge badge-secondary badge-pill">{{ bug.comments.count }}</span>
+                                    <i class="fas fa-comments fa-2x text-secondary"></i>
+                                    <span class="badge badge-secondary badge-pill bg-primary">{{ bug.comments.count }}</span>
                                 </div>
                                 <div class="bug-status-icon">
-                                    <i class="fas fa-thumbs-up fa-2x"
+                                    <i class="fas fa-thumbs-up fa-2x text-secondary"
                                        data-placement="bottom"
                                        data-toggle="tooltip" title=""
                                        data-original-title="View bug details to vote!"></i>
-                                    <span class="badge badge-secondary badge-pill">{{ bug.votes.count }}</span>
+                                    <span class="badge badge-secondary badge-pill bg-primary">{{ bug.votes.count }}</span>
                                 </div>
                             </div>
                         </div>

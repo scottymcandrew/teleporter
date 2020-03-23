@@ -16,10 +16,7 @@ from .forms import CreateBugReport, BugCommentForm, SearchForm
 @login_required
 def all_bugs(request):
     # The following duplicates bugs for each vote. Can't count direct on a M2M field?
-    # bug_list = Bug.objects.all().order_by('votes', '-created')
     bug_list = Bug.objects.all().order_by('-created')
-    for bug in bug_list:
-        print(bug)
     paginator = Paginator(bug_list, 4)
     page = request.GET.get('page')
     try:
@@ -42,7 +39,7 @@ def bug_detail(request, id):
     # Comments
     comments = bug.comments.all()
 
-    paginator = Paginator(comments, 5)
+    paginator = Paginator(comments, 4)
     page = request.GET.get('page')
     try:
         comments = paginator.page(page)

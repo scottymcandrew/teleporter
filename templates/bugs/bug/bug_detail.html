@@ -12,11 +12,11 @@
         <p>{{ bug.description }}</p>
         <hr class="my-4">
         <div class="bug-details row">
-            <div class="col-6">
+            <div class="col-9">
                 <p>Current status: {{ bug.status }}</p>
                 <small>Created by: <strong>{{ bug.author }}</strong>, on {{ bug.created }}</small>
             </div>
-            <div class="col-6">
+            <div class="col-3 d-flex justify-content-end align-items-center">
                 {% with total_votes=bug.votes.count users_vote=bug.votes.all %}
                     <!-- If the user is the author, disallow removal of their vote -->
                     <a href="#" data-id="{% if request.user == bug.author %}DISABLED{% endif %}{{ bug.id }}"
@@ -24,7 +24,7 @@
                        class="vote btn btn-secondary">
                         <i class="fas fa-2x vote-icon {% if request.user not in users_vote %}fa-thumbs-up{% else %}fa-thumbs-down{% endif %}"></i>
                     </a>
-                    <span class="badge badge-primary badge-pill vote-count">
+                    <span class="badge badge-primary badge-pill vote-count align-self-start mt-2 ml-2">
                                         <span class="total">{{ total_votes }}</span>
                                         vote{{ total_votes|pluralize }}
                     </span>
@@ -45,31 +45,32 @@
     </div>
 
     <!-- Comment cards -->
-    <div class="row">
+    <div class="list-group">
         {% for comment in comments %}
 
-            <div class="card">
-                <div class="card-content blue lighten-2">
-                        <span class="card-title">Comment from <em>{{ comment.author }}</em>,
-                            <small>created on: {{ comment.created }}</small></span>
+            <div class="list-group-item list-group-item-action flex-column align-items-start active mb-4">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ comment.author }}</h5>
+                    <small>{{ comment.created }}</small>
                 </div>
-                <div class="card-action">
-                    <p>{{ comment.comment|linebreaks }}</p>
-                </div>
+                <p class="mb-1 mt-4">{{ comment.comment|linebreaks }}</p>
             </div>
+
         {% empty %}
-            <p>There are no comments yet... how sad :-(</p>
+            <div class="col">
+                <p class="text-secondary">There are no comments yet... how sad :-(</p>
+            </div>
 
         {% endfor %}
-
-        {% include 'pagination.html' with page=comments %}
     </div>
 
-    <h4>Add a new comment</h4>
+    {% include 'pagination.html' with page=comments %}
+
     <form action="." method="POST">
+        <legend>Add a new comment</legend>
         {{ bug_comment_form|crispy }}
         {% csrf_token %}
-        <button class="btn btn-secondary" type="submit" value="Add comment">Add comment</button>
+        <button class="btn btn-secondary mb-4" type="submit" value="Add comment">Add comment</button>
     </form>
 
 {% endblock %}

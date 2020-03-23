@@ -4,12 +4,12 @@ from .models import Feature, FeatureComment
 
 @admin.register(Feature)
 class FeatureAdmin(admin.ModelAdmin):
-    list_display = ['title', 'author', 'created', 'severity', 'status']
+    list_display = ['title', 'author', 'created', 'status']
     list_filter = ['created']
 
 
 @admin.register(FeatureComment)
-class CommentAdmin(admin.ModelAdmin):
-    list_display = ('author', 'bug', 'created')
+class FeatureCommentAdmin(admin.ModelAdmin):
+    list_display = ('author', 'feature', 'created')
     list_filter = ('created', 'updated')
     search_fields = ('author', 'body')

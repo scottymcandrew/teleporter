@@ -15,7 +15,6 @@ from .forms import CreateFeatureReport, FeatureCommentForm, SearchForm
 
 @login_required
 def all_features(request):
-    # The following duplicates features for each vote. Can't count direct on a M2M field?
     feature_list = Feature.objects.all().order_by('-created')
     paginator = Paginator(feature_list, 4)
     page = request.GET.get('page')
@@ -78,7 +77,7 @@ def feature_detail(request, id):
 
 
 @login_required
-def create_feature_report(request):
+def request_feature(request):
     if request.method == 'POST':
         form = CreateFeatureReport(data=request.POST)
         if form.is_valid():
@@ -94,7 +93,7 @@ def create_feature_report(request):
             return redirect(new_feature.get_absolute_url())
     else:
         form = CreateFeatureReport()
-        return render(request, 'features/create_feature_report.html', {'form': form})
+        return render(request, 'features/request_feature.html', {'form': form})
 
 
 @ajax_required

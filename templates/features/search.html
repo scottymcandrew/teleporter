@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}Feature Search{% endblock %}
+
+{% block content %}
+
+    {% if query %}
+
+        <h3>Features containing {{ query }}</h3>
+
+        <h4>
+            {% with results.count as total_results %}
+                Found {{ total_results }} result{{ total_results|pluralize }}
+            {% endwith %}
+        </h4>
+
+        <ul class="collection">
+            {% for feature in results %}
+
+                <li class="collection-item avatar feature-list-item">
+                    <a href="{{ feature.get_absolute_url }}">{{ feature.title }}</a>
+                    {{ feature.description|truncatewords:6 }}
+                </li>
+            {% empty %}
+                <li class="collection-item avatar feature-list-item">
+                    <a href="{% url "feature_search" %}">Nothing found. Please try searching again.</a>
+                </li>
+
+            {% endfor %}
+        </ul>
+
+    {% else %}
+
+        <h3>Search for posts</h3>
+        <form action="." method="GET">
+            {{ form|crispy }}
+            {% csrf_token %}
+            <button class="btn btn-secondary" type="submit" value="Search">Search</button>
+        </form>
+
+    {% endif %}
+
+{% endblock %}

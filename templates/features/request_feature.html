@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}Request a New Feature{% endblock %}
+
+{% block content %}
+
+    <h2>Think you could improve our Teleportation system?</h2>
+    <p class="text-primary">Please detail what you would like to see. If it's possible, and we receive enough requests,
+        our mad scientists will get to work!</p>
+
+    <form action="." method="POST">
+        {{ form|crispy }}
+        {% csrf_token %}
+        <button class="btn btn-secondary" type="submit" value="Save feature request">Save feature request</button>
+    </form>
+
+{% endblock %}

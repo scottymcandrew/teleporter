@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block title %}Your Cart{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        {% for item in cart_items %}
+
+            <div class="col-xs-10">
+                <h3>{{ item.feature.title }}</h3>
+                <p>{{ item.feature.description }}</p>
+                <p>{{ item.feature.price }}</p>
+                <div class="form-group">
+                    <form method="POST" action="{% url 'adjust_cart' item.id %}">
+                        {% csrf_token %}
+                        <label for="InputAmount">New Qty</label>
+                        <input id="InputAmount" name="quantity" type="number" min="0" max="99">
+                        <div>{{ item.quantity }}</div>
+                        <button type="submit" class="btn btn-secondary">Amend</button>
+                    </form>
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
+
+    <div class="row">
+        <p>Total</p>
+        <p>{{ total }}</p>
+        <a href="{% url 'checkout' %}" class="btn btn-secondary" role="button">Checkout</a>
+    </div>
+
+{% endblock %}

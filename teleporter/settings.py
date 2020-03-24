@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'bugs',
     'features',
     'cart',
+    'checkout',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -143,6 +144,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 LOGIN_REDIRECT_URL = 'user_dashboard'
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
+
+# Stripe payments
+STRIPE_PUB_KEY = os.environ.get('STRIPE_PUB_KEY')
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
 
 # Write emails to console during dev
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

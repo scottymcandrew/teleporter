@@ -9,10 +9,8 @@ class CreateFeatureReport(forms.ModelForm):
 
     # Hidden default inputs to initialise the Feature object
     status = forms.CharField(widget=forms.HiddenInput(), initial='Requested')
-
-    # Verify how to initialise vote value. The votes themselves will not be integers but rather count will be based
-    # on number of users who have voted. This method should prevent multiple votes by a single user
-    # user_votes = forms.IntegerField(widget=forms.HiddenInput(), initial='1')
+    # Since this form is for users, we default the category to user-requested.
+    category = forms.CharField(widget=forms.HiddenInput(), initial='User-Requested')
 
     class Meta:
         model = Feature

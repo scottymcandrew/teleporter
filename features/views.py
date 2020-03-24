@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.messages.views import SuccessMessageMixin
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic.edit import UpdateView, DeleteView
 from django.contrib import messages
 from django.contrib.postgres.search import SearchVector
@@ -86,33 +86,12 @@ def request_feature(request):
             # assign current user to the feature
             new_feature.author = request.user
             new_feature.save()
-            # Add a vote automatically for requesting user (of course!)
-            new_feature.votes.add(request.user)
             messages.success(request, 'Feature reported successfully to our team')
             # redirect to new created feature detail view
             return redirect(new_feature.get_absolute_url())
     else:
         form = CreateFeatureReport()
         return render(request, 'features/request_feature.html', {'form': form})
-
-
-@ajax_required
-@login_required
-@require_POST
-def feature_vote(request):
-    feature_id = request.POST.get('id')
-    action = request.POST.get('action')
-    if feature_id and action:
-        try:
-            feature = Feature.objects.get(id=feature_id)
-            if action == 'vote':
-                feature.votes.add(request.user)
-            else:
-                feature.votes.remove(request.user)
-            return JsonResponse({'status': 'ok'})
-        except:
-            pass
-    return JsonResponse({'status': 'ko'})
 
 
 def feature_search(request):
@@ -133,13 +112,17 @@ def feature_search(request):
 
 class FeatureEdit(SuccessMessageMixin, UpdateView):
     model = Feature
-    fields = ['title', 'description', 'severity', 'status']
+    fields = ['title', 'description']
     template_name_suffix = '_update_form'
-    success_url = reverse_lazy('all_features')
-    success_message = "Awesome, you just updated %(title)!"
+    success_message = "Awesome, you just updated this request"
+
+    def get_success_url(self):
+        return reverse('feature_detail', kwargs={
+            'id': self.object.id,
+        })
 
 
 class FeatureDelete(SuccessMessageMixin, DeleteView):
     model = Feature
     success_url = reverse_lazy('all_features')
-    success_message = "Oh well, looks like you really did delete %(title)!"
+    success_message = "Oh well, looks like you really did delete %(title)"

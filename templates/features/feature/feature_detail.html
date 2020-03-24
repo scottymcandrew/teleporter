@@ -12,23 +12,34 @@
         <p>{{ feature.description }}</p>
         <hr class="my-4">
         <div class="feature-details row">
-            <div class="col-9">
-                <p>Current status: {{ feature.status }}</p>
+            <div class="col-6">
+                <p>Current status: <span
+                        class="badge badge-{% if feature.status == 'Requested' %}secondary{% elif feature.status == 'Implementing' %}warning{% elif feature.status == 'Testing' %}info{% else %}success{% endif %}">{{ feature.status }}</span>
+                </p>
                 <small>Created by: <strong>{{ feature.author }}</strong>, on {{ feature.created }}</small>
             </div>
-            <div class="col-3 d-flex justify-content-end align-items-center">
-                {% with total_votes=feature.votes.count users_vote=feature.votes.all %}
-                    <!-- If the user is the author, disallow removal of their vote -->
-                    <a href="#" data-id="{% if request.user == feature.author %}DISABLED{% endif %}{{ feature.id }}"
-                       data-action="{% if request.user in users_vote %}un{% endif %}vote"
-                       class="vote btn btn-secondary">
-                        <i class="fas fa-2x vote-icon {% if request.user not in users_vote %}fa-thumbs-up{% else %}fa-thumbs-down{% endif %}"></i>
-                    </a>
-                    <span class="badge badge-primary badge-pill vote-count align-self-start mt-2 ml-2">
-                                        <span class="total">{{ total_votes }}</span>
-                                        vote{{ total_votes|pluralize }}
-                    </span>
-                {% endwith %}
+            <div class="col-6 d-flex justify-content-between">
+                <div class="feature-status-icon">
+                    <i class="fas fa-money-bill-wave fa-2x text-secondary"
+                       data-placement="bottom"
+                       data-toggle="tooltip" title=""
+                       data-original-title="Cost per contribution"></i>
+                    <span class="badge badge-secondary badge-pill bg-primary">£{{ feature.price }}</span>
+                </div>
+                <div class="form-group">
+                    <form method="POST" action="{% url 'add_to_cart' feature.id %}">
+                        {% csrf_token %}
+                            <label class="control-label" for="add-to-cart-form">Quantity</label>
+                            <input class="form-control form-control-sm" name="quantity" type="number" min="1" max="99" id="add-to-cart-form"
+                                   placeholder="Quantity">
+                            <span class="input-group">
+                            <button class="card-link btn btn-success" type="submit"><i class="fas fa-cart-plus fa-2x"
+                                                                                       data-placement="bottom"
+                                                                                       data-toggle="tooltip" title=""
+                                                                                       data-original-title="Contrbute to this feature!"></i></button>
+                        </span>
+                    </form>
+                </div>
             </div>
         </div>
         {% if request.user == feature.author %}
@@ -57,8 +68,10 @@
             </div>
 
         {% empty %}
-            <div class="col">
-                <p class="text-secondary">There are no comments yet... how sad :-(</p>
+            <div class="alert alert-dismissible alert-secondary">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <h4 class="alert-heading">No Comments!</h4>
+                <p class="mb-0">There are no comments yet... is this feature really worth it?</p>
             </div>
 
         {% endfor %}

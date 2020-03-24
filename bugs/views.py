@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.messages.views import SuccessMessageMixin
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic.edit import UpdateView, DeleteView
 from django.contrib import messages
 from django.contrib.postgres.search import SearchVector
@@ -135,11 +135,15 @@ class BugEdit(SuccessMessageMixin, UpdateView):
     model = Bug
     fields = ['title', 'description', 'severity', 'status']
     template_name_suffix = '_update_form'
-    success_url = reverse_lazy('all_bugs')
-    success_message = "Awesome, you just updated %(title)!"
+    success_message = "Awesome, you just updated this bug"
+
+    def get_success_url(self):
+        return reverse('bug_detail', kwargs={
+            'id': self.object.id,
+        })
 
 
 class BugDelete(SuccessMessageMixin, DeleteView):
     model = Bug
     success_url = reverse_lazy('all_bugs')
-    success_message = "Oh well, looks like you really did delete %(title)!"
+    success_message = "Oh well, looks like you really did delete %(title)"

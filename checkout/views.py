@@ -28,6 +28,7 @@ def checkout(request):
             for id, quantity in cart.items():
                 feature = get_object_or_404(Feature, pk=id)
                 total += quantity * feature.price
+                feature.purchases += quantity
                 order_line_item = OrderLineItem(order=order, feature=feature, quantity=quantity)
                 order_line_item.save()
 
@@ -43,6 +44,7 @@ def checkout(request):
 
             if customer.paid:
                 messages.error(request, 'You have paid successfully!')
+                feature.save()
                 request.session['cart'] = {}
                 return redirect(reverse('all_features'))
             else:

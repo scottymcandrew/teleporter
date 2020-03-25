@@ -27,6 +27,7 @@ class Feature(models.Model):
     created = models.DateTimeField(auto_now_add=True, db_index=True)
     status = models.CharField(max_length=12, default='Requested')
     price = models.DecimalField(max_digits=6, decimal_places=2, default=50.00)
+    purchases = models.DecimalField(max_digits=1000, decimal_places=0, default=0)
     category = models.CharField(max_length=16, default='User-Requested', blank=True)
 
     def get_absolute_url(self):

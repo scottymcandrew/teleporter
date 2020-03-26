@@ -33,6 +33,10 @@ class Feature(models.Model):
     def get_absolute_url(self):
         return reverse('feature_detail', args=[self.id])
 
+    def get_funds_raised(self):
+        funds_raised = self.purchases * self.price
+        return funds_raised
+
     def __str__(self):
         return self.title
 

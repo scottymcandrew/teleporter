@@ -36,7 +36,9 @@
     {% for feature in features %}
         {% if feature.status != 'Resolved' %}
             <div class="card mb-3">
-                <h3 class="card-header"><a href="{% url "feature_detail" feature.id %}">{{ feature.title }}</a></h3>
+                <h3 class="card-header d-flex justify-content-between"><a href="{% url "feature_detail" feature.id %}">{{ feature.title }}</a>
+                    <span><i class="fas fa-pound-sign"></i>  {{ feature.price }}</span>
+                </h3>
                 <div class="card-body">
                     <h5 class="card-title">Status: <span
                             class="badge badge-{% if feature.status == 'Requested' %}secondary{% elif feature.status == 'Implementing' %}warning{% elif feature.status == 'Testing' %}info{% else %}success{% endif %}">{{ feature.status }}</span>
@@ -47,7 +49,7 @@
                     <p class="card-text">{{ feature.description|truncatewords:25 }}</p>
                 </div>
                 <div class="card-body d-flex justify-content-between">
-                    <div class="feature-status-icon"><i class="fas fa-cart-plus fa-2x text-primary"
+                    <div class="feature-status-icon"><i class="fas fa-cash-register fa-2x text-primary"
                                                      data-placement="bottom"
                                                      data-toggle="tooltip" title=""
                                                      data-original-title="Contributions so far!"></i>
@@ -57,8 +59,8 @@
                         <i class="fas fa-money-bill-wave fa-2x text-secondary"
                            data-placement="bottom"
                            data-toggle="tooltip" title=""
-                           data-original-title="Cost per contribution"></i>
-                        <span class="badge badge-secondary badge-pill bg-primary">£{{ feature.price }}</span>
+                           data-original-title="Funds Raised"></i>
+                        <span class="badge badge-secondary badge-pill bg-primary">£{{ feature.get_funds_raised }}</span>
                     </div>
                     <div class="feature-status-icon">
                         <i class="fas fa-comments fa-2x text-secondary"></i>

@@ -15,6 +15,7 @@ def cart_contents(request):
         feature = get_object_or_404(Feature, pk=id)
         total += quantity * feature.price
         feature_count += quantity
+
         cart_items.append({'id': id, 'quantity': quantity, 'feature': feature})
 
     return {'cart_items': cart_items, 'total': total, 'feature_count': feature_count}

@@ -34,7 +34,19 @@ def adjust_cart(request, id):
     if quantity > 0:
         cart[id] = quantity
     else:
-        cart.pop(id)
+        cart.pop(str(id))
         
+    request.session['cart'] = cart
+    return redirect(reverse('view_cart'))
+
+
+def delete_from_cart(request, id):
+    """
+    Delete item from cart
+    """
+    cart = request.session.get('cart', {})
+    print(cart)
+    cart.pop(str(id))
+
     request.session['cart'] = cart
     return redirect(reverse('view_cart'))

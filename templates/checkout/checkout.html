@@ -7,24 +7,25 @@
 
 {% block content %}
 
-    <div class="row row-flex">
-        {% for item in cart_items %}
-            <div class="col-xs-10 col-xs-offset-1 col-sm-offset-0 col-sm-6 col-md-4 display panel panel-default">
-                <div class="panel-body">
+    <div class="card mb-3">
+        <h3 class="card-header">Order Summary</h3>
 
-                    <div class="caption">
-                        <h3>{{ item.feature.title }}</h3>
-                        <p class="feature-description">{{ item.feature.description }}</p>
-                        <p>{{ item.quantity }}</p>
-                        <p>{{ item.feature.price }}</p>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
+        <ul class="list-group list-group-flush">
+            {% for item in cart_items %}
+                {% with feature=item.feature %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span class="badge badge-primary">{{ feature.title }}</span>
+                        <span>QTY: {{ item.quantity }}</span>
+                    </li>
+                {% endwith %}
+            {% endfor %}
+        </ul>
     </div>
-    <div class="row">
-        <p>Total</p>
-        <p><span class="glyphicon glyphicon-euro" aria-hidden="true"></span>{{ total }}</p>
+
+    <div class="row ml-1">
+        <div class="col mt-4 mb-4 d-flex">
+            <h3>Total: <span class="badge badge-primary">£ {{ total }}</span></h3>
+        </div>
     </div>
 
     <form role="form" method="post" id="payment-form" action="{% url 'checkout' %}">

@@ -37,7 +37,7 @@
         {% if feature.status != 'Resolved' %}
             <div class="card mb-3">
                 <h3 class="card-header d-flex justify-content-between"><a href="{% url "feature_detail" feature.id %}">{{ feature.title }}</a>
-                    <span><i class="fas fa-pound-sign"></i>  {{ feature.price }}</span>
+                    <span>£{{ feature.price }}</span>
                 </h3>
                 <div class="card-body">
                     <h5 class="card-title">Status: <span

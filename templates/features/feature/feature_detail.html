@@ -18,26 +18,27 @@
                 </p>
                 <small>Created by: <strong>{{ feature.author }}</strong>, on {{ feature.created }}</small>
             </div>
-            <div class="col-6 d-flex justify-content-between">
-                <div class="feature-status-icon">
-                    <i class="fas fa-money-bill-wave fa-2x text-secondary"
-                       data-placement="bottom"
-                       data-toggle="tooltip" title=""
-                       data-original-title="Cost per contribution"></i>
-                    <span class="badge badge-secondary badge-pill bg-primary">£{{ feature.price }}</span>
-                </div>
+            <div class="col-6 d-flex justify-content-end">
                 <div class="form-group">
                     <form method="POST" action="{% url 'add_to_cart' feature.id %}">
                         {% csrf_token %}
-                            <label class="control-label" for="add-to-cart-form">Quantity</label>
-                            <input class="form-control form-control-sm" name="quantity" type="number" min="1" max="99" id="add-to-cart-form"
-                                   placeholder="Quantity">
+                        <div class="row align-items-center justify-content-end">
+                            <div class="col">
+                                <label class="control-label text-center" for="add-to-cart-form">Number of Contributions</label>
+                                <input class="form-control form-control-sm" name="quantity" type="number" min="1"
+                                       max="99"
+                                       id="add-to-cart-form"
+                                       placeholder="Quantity">
+                            </div>
+                            <div class="col">
                             <span class="input-group">
-                            <button class="card-link btn btn-success" type="submit"><i class="fas fa-cart-plus fa-2x"
+                            <button class="card-link btn btn-outline-success" type="submit"><i class="fas fa-cart-plus fa-2x"
                                                                                        data-placement="bottom"
                                                                                        data-toggle="tooltip" title=""
                                                                                        data-original-title="Contrbute to this feature!"></i></button>
-                        </span>
+                            </span>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

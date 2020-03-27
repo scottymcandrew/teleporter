@@ -1,8 +1,11 @@
 from django.db import models
+from django.conf import settings
 from features.models import Feature
 
 
 class Order(models.Model):
+    purchaser = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='features_purchased',
+                                  on_delete=models.SET_NULL, null=True)
     full_name = models.CharField(max_length=50, blank=False)
     phone_number = models.CharField(max_length=20, blank=False)
     country = models.CharField(max_length=40, blank=False)

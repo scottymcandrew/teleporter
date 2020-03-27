@@ -8,7 +8,13 @@
 {% block content %}
 
     <div class="jumbotron">
-        <h3>{{ feature.title }}</h3>
+        <h3 class="d-flex justify-content-between">
+            {{ feature.title }}<span><i class="fas fa-thumbs-up fa-lg text-secondary"
+                                         data-placement="bottom"
+                                         data-toggle="tooltip" title=""
+                                         data-original-title="Contributions so far!"></i>
+                        <span class="badge badge-secondary badge-pill bg-primary">{{ feature.purchases }}</span></span>
+        </h3>
         <p>{{ feature.description }}</p>
         <hr class="my-4">
         <div class="feature-details row">
@@ -24,7 +30,7 @@
                         {% csrf_token %}
                         <div class="row align-items-center justify-content-end">
                             <div class="col">
-                                <label class="control-label text-center" for="add-to-cart-form">Number of Contributions</label>
+                                <label class="control-label text-center" for="add-to-cart-form">Want to contribute?</label>
                                 <input class="form-control form-control-sm" name="quantity" type="number" min="1"
                                        max="99"
                                        id="add-to-cart-form"
@@ -32,10 +38,11 @@
                             </div>
                             <div class="col">
                             <span class="input-group">
-                            <button class="card-link btn btn-outline-success" type="submit"><i class="fas fa-cart-plus fa-2x"
-                                                                                       data-placement="bottom"
-                                                                                       data-toggle="tooltip" title=""
-                                                                                       data-original-title="Contrbute to this feature!"></i></button>
+                            <button class="card-link btn btn-outline-success" type="submit"><i
+                                    class="fas fa-cart-plus fa-2x"
+                                    data-placement="bottom"
+                                    data-toggle="tooltip" title=""
+                                    data-original-title="Contrbute to this feature!"></i></button>
                             </span>
                             </div>
                         </div>
@@ -43,7 +50,7 @@
                 </div>
             </div>
         </div>
-        {% if request.user == feature.author %}
+        {% if request.user == feature.author or request.user.is_staff %}
             <hr class="my-4">
             <h4>Feature Owner Danger Zone...</h4>
             <br>

@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}About Teleportation Inc.{% endblock %}
+
+{% block content_no_container %}
+
+    <!-- First Parallax Section -->
+    <div class="jumbotron jumbotron-fluid parallax d-flex justify-content-center align-items-center flex-column"
+         style="background-image: url('{% static 'images/mathew-schwartz-sb7RUrRMaC4-unsplash.jpg' %}')">
+        <div class="card about-us-card text-white bg-info">
+            <div class="card-body text-center">
+                <h2 class="card-title">About Teleportation Inc. </h2>
+                <h4 class="card-subtitle mb-2">Transport Services for the 21st Century!</h4>
+                <hr class="my-4">
+                <p class="card-text about-us-card-text"><i class="fas fa-plane-slash fa-lg"></i> Fed up of being crammed
+                    into rickety old airplanes ran by cost-cutting airlines?</p>
+                <p class="card-text about-us-card-text">Is your head hurting because you know it will take a light-year
+                    to traverse airport security? <i class="fas fa-user-lock fa-lg"></i></p>
+                <p class="card-text about-us-card-text"><i class="fas fa-arrow-down"></i> Keep scrolling to find out
+                    more <i class="fas fa-arrow-down"></i></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Second Parallax Section -->
+    <div class="jumbotron jumbotron-fluid parallax d-flex justify-content-center align-items-center flex-column"
+         style="background-image: url('{% static 'images/nasa-cIX5TlQ_FgM-unsplash.jpg' %}')">
+        <div class="card about-us-card text-white bg-secondary">
+            <div class="card-body text-center">
+                <h2 class="card-title">What is the Answer?</h2>
+                <h4 class="card-subtitle mb-2">There is a better way</h4>
+                <hr class="my-4">
+                <p class="card-text about-us-card-text"><i class="fas fa-globe-europe fa-lg"></i> What if we told you
+                    that you can travel instantly to any location in the world?</p>
+                <p class="card-text about-us-card-text">Where annoying people can't get in your way in security <i
+                        class="fas fa-fast-forward fa-lg"></i></p>
+                <p class="card-text about-us-card-text"><i class="fas fa-arrow-down"></i> Tell me more <i
+                        class="fas fa-arrow-down"></i></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Third Parallax Section -->
+    <div class="jumbotron jumbotron-fluid parallax parallax-bottom d-flex justify-content-center align-items-center flex-column"
+         style="background-image: url('{% static 'images/ramon-salinero-vEE00Hx5d0Q-unsplash.jpg' %}')">
+        <div class="card about-us-card text-white bg-primary">
+            <div class="card-body text-center">
+                <h2 class="card-title">Teleportation!</h2>
+                <h4 class="card-subtitle mb-2">The Blissful Way to See the World!</h4>
+                <hr class="my-4">
+                <p class="card-text about-us-card-text">We decided to invent teleportation because we were at our wits end putting up with all existing, terrible, travel options. We hired the maddest scientists in the world and tasked them with implementing the ability for us to never have to get on a crammed airplane <em>ever</em> again!</p>
+                <p class="card-text about-us-card-text">Our business model is simple - we provide you with our app for free. Yes that's right, all you need is a mobile phone! However, we can always add new features to your teleportation experience and so our lovely users can request features. Once registered they can be funded and then they will be planned and implemented.</p>
+                <p class="card-text about-us-card-text">This service is bleeding edge and thus bugs will be a fact of life. Registered users can raise bugs and we will endeavour to fix them to improve the service for all!</p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block specific_template_scripts %}
+    <!-- This script sets the parallax secion to the height of the viewport -->
+    <script>
+        var imageFit = function () {
+            windowHeight = $(window).height();
+            $('.parallax').css('min-height', windowHeight).refresh();
+        };
+
+        $(document).ready(imageFit);
+        $(window).resize(imageFit);
+    </script>
+{% endblock %}

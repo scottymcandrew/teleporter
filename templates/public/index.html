@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Welcome to Teleportation Inc.{% endblock %}
+
+{% block content_no_container %}
+
+    <!-- First Parallax Section -->
+    <div class="jumbotron jumbotron-fluid parallax d-flex justify-content-center align-items-center flex-column"
+         style="background-image: url('{% static 'images/mathew-schwartz-sb7RUrRMaC4-unsplash.jpg' %}')">
+        <h1 class="display-3"><span class="badge badge-info">Teleportation Inc.  <i class="fas fa-atom"></i></span></h1>
+        <p class="lead"><span class="badge badge-info">Transport Services for the 21st Century!</span></p>
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="{% url 'about_us' %}" role="button">About Us</a>
+        </p>
+    </div>
+
+    <!-- Second Parallax Section -->
+    <div class="jumbotron jumbotron-fluid parallax d-flex justify-content-center align-items-center flex-column"
+         style="background-image: url('{% static 'images/nasa-cIX5TlQ_FgM-unsplash.jpg' %}')">
+        <h1 class="display-3"><span class="badge badge-secondary">Features and Roadmap</span></h1>
+        <p class="lead"><span class="badge badge-secondary">Want to know about our current features and roadmap?</span>
+        </p>
+        <p class="lead">
+            <a class="btn btn-info btn-lg btn-md" href="{% url 'service_stats' %}" role="button">Click Here</a>
+        </p>
+    </div>
+
+    <!-- Third Parallax Section -->
+    <div class="jumbotron jumbotron-fluid parallax parallax-bottom d-flex justify-content-center align-items-center flex-column"
+         style="background-image: url('{% static 'images/ramon-salinero-vEE00Hx5d0Q-unsplash.jpg' %}')">
+        <h1 class="display-3"><span class="badge badge-primary">User Portal</span></h1>
+        <p class="lead"><span class="badge badge-primary">Already a member or want to join us?</span></p>
+        <p class="lead">
+            <a class="btn btn-secondary btn-lg btn-md" href="{% url 'user_dashboard' %}" role="button">Enter Here!</a>
+        </p>
+    </div>
+
+{% endblock %}
+
+{% block specific_template_scripts %}
+    <!-- This script sets the parallax secion to the height of the viewport -->
+    <script>
+        var imageFit = function () {
+            windowHeight = $(window).height();
+            $('.parallax').css('min-height', windowHeight).refresh();
+        };
+
+        $(document).ready(imageFit);
+        $(window).resize(imageFit);
+    </script>
+{% endblock %}

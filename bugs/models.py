@@ -32,6 +32,9 @@ class Bug(models.Model):
     def get_absolute_url(self):
         return reverse('bug_detail', args=[self.id])
 
+    def get_vote_count(self):
+        return self.votes.count()
+
     def __str__(self):
         return self.title
 

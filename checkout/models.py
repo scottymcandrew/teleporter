@@ -22,7 +22,7 @@ class Order(models.Model):
 
 class OrderLineItem(models.Model):
     order = models.ForeignKey(Order, null=False, on_delete=models.CASCADE)
-    feature = models.ForeignKey(Feature, null=False, on_delete=models.CASCADE)
+    feature = models.ForeignKey(Feature, null=False, related_name='feature_order_item', on_delete=models.CASCADE)
     quantity = models.IntegerField(blank=False)
 
     def __str__(self):

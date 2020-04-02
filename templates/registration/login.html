@@ -1,27 +1,39 @@
 {% extends "base.html" %}
 
+{% load staticfiles %}
+
 {% load crispy_forms_tags %}
 
 {% block title %}Log-in{% endblock %}
 
 {% block content %}
 
-    <h1>Login</h1>
-    {% if form.errors %}
-        <p>Your username or password is incorrect. Please try again.</p>
-    {% else %}
-        <p>Please use the following form to log-in. If you're new to Teleportation, then
-            <a href="{% url "register" %}">Sign up here!</a></p>
-    {% endif %}
+    <!-- Heading -->
+    <div class="row section-heading">
+        <div class="col-12">
+            <h2>Login</h2>
+            {% if form.errors %}
+                <p>Your username or password is incorrect. Please try again.</p>
+            {% else %}
+                <p>Please use the following form to log-in. If you're new to Teleportation, then
+                    <a href="{% url "register" %}">Sign up here!</a></p>
+            {% endif %}
+        </div>
+    </div>
 
-    <div class="login-form">
-        <form action="{% url 'login' %}" method="post">
-            {% csrf_token %}
-            {{ form|crispy }}
-            <input type="hidden" name="next" value="{{ next }}"/>
-            <button class="btn btn-secondary" type="submit" value="Log-In">Log In</button>
-        </form>
-        <p><a href="{% url "password_reset" %}">Oh no! Have you forgotten your password?</a></p>
+    <div class="row mt-4">
+        <div class="col form-group">
+            <div class="login-form">
+                <form action="{% url 'login' %}" method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <input type="hidden" name="next" value="{{ next }}"/>
+                    <button class="btn btn-secondary" type="submit" value="Log-In">Log In</button>
+                </form>
+                <br>
+                <h4><a href="{% url "password_reset" %}">Oh no! Have you forgotten your password?</a></h4>
+            </div>
+        </div>
     </div>
 
 {% endblock %}

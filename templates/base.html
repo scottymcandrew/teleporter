@@ -21,7 +21,7 @@
 
 <! -- Navbar -->
 <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-primary">
-    <a class="navbar-brand" href="{% url 'user_dashboard' %}">Teleportation Inc.<i class="fas fa-atom"></i></a>
+    <a class="navbar-brand" href="{% url 'index' %}">Teleportation Inc. <i class="fas fa-atom"></i></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
             aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -30,10 +30,19 @@
     <div class="collapse navbar-collapse" id="navbarColor02">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
+                <a class="nav-link" href="{% url "about_us" %}"><i class="fas fa-info-circle fa-lg"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url "user_dashboard" %}"><i class="fas fa-tachometer-alt fa-lg"></i></a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="{% url "all_features" %}">Features</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url "all_bugs" %}">Bugs</a>
+            </li>
+            <li>
+                <a class="nav-link" href="{% url "service_stats" %}">Stats</a>
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -54,20 +63,24 @@
     </div>
 </nav>
 
-<!-- Section to deal with Django messages -->
-{% if messages %}
-    <div class="alert alert-dismissible alert-warning">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <h4 class="alert-heading">You've Got Mail!</h4>
-        {% for message in messages %}
-            <p class="mb-0 {{ message.tags }}">
-                {{ message|safe }}
-            </p>
-        {% endfor %}
-    </div>
-{% endif %}
+<!-- Purpose of this block is for the public pages with Parallax effect so images/conent span entire width -->
+{% block content_no_container %}
+{% endblock %}
 
-<div class="container">
+<div class="container main-content-container">
+    <!-- Section to deal with Django messages -->
+    {% if messages %}
+        <div class="alert alert-dismissible alert-secondary">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4 class="alert-heading">You've Got Mail!</h4>
+            {% for message in messages %}
+                <p class="mb-0 {{ message.tags }}">
+                    {{ message|safe }}
+                </p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
     {% block content %}
     {% endblock %}
 </div>
@@ -85,53 +98,15 @@
 <!-- Stripe JS -->
 {% block stripe_js %}
 {% endblock stripe_js %}
+<!-- Chart.js-->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 <!-- Custom JS -->
 <script src="{% static "js/init.js" %}"></script>
 <script src="{% static "js/main.js" %}"></script>
 
-
-<! -- This Script deals with Ajax CSFR and to provide the voting functionality. -->
-<! -- If I place this in a separate js file it doesn't currently work, hence why including here -->
-<script>
-    var csrftoken = Cookies.get('csrftoken');
-
-    function csrfSafeMethod(method) {
-        // these HTTP methods do not require CSRF protection
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-
-    $.ajaxSetup({
-        beforeSend: function (xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            }
-        }
-    });
-
-    $(document).ready(function () {
-        $('a.vote').click(function (e) {
-            e.preventDefault();
-            $.post('{% url "bug_vote" %}',
-                {
-                    id: $(this).data('id'),
-                    action: $(this).data('action')
-                },
-                function (data) {
-                    if (data['status'] === 'ok') {
-                        var previous_action = $('a.vote').data('action');
-                        // toggle data-action
-                        $('a.vote').data('action', previous_action === 'vote' ? 'unvote' : 'vote');
-                        // toggle vote icon
-                        $('i.vote-icon').addClass(previous_action === 'vote' ? 'fa-thumbs-down' : 'fa-thumbs-up');
-                        $('i.vote-icon').removeClass(previous_action === 'vote' ? 'fa-thumbs-up' : 'fa-thumbs-down');
-                        // update total votes
-                        var previous_votes = parseInt($('span.vote-count .total').text());
-                        $('span.vote-count .total').text(previous_action == 'vote' ? previous_votes + 1 : previous_votes - 1);
-                    }
-                });
-        });
-    });
-</script>
+<!-- This block allows for specifying template-specific scripts which need to be loaded at the end -->
+{% block specific_template_scripts %}
+{% endblock %}
 
 </body>
 </html>

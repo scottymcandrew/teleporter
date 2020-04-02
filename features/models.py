@@ -10,6 +10,7 @@ class Feature(models.Model):
 
     FEATURE_STATUS = [
         ('Requested', 'Requested'),
+        ('Funded', 'Funded'),
         ('Implementing', 'Implementing'),
         ('Testing', 'Testing'),
         ('Implemented', 'Implemented'),
@@ -17,7 +18,6 @@ class Feature(models.Model):
 
     FEATURE_CATEGORY = [
         ('User-Requested', 'User-Requested'),
-        ('Admin-Requested', 'Admin-Requested'),
         ('Roadmap', 'Roadmap')
     ]
 
@@ -29,6 +29,7 @@ class Feature(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2, default=50.00)
     purchases = models.DecimalField(max_digits=1000, decimal_places=0, default=0)
     category = models.CharField(max_length=16, default='User-Requested', blank=True)
+    funders = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='feature_funders', blank=True)
 
     def get_absolute_url(self):
         return reverse('feature_detail', args=[self.id])

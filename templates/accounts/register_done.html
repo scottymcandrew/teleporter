@@ -1,8 +1,20 @@
 {% extends "base.html" %}
 
+{% load staticfiles %}
+
 {% block title %}Welcome{% endblock %}
 
 {% block content %}
-    <h1>Welcome on board {{ new_user.first_name }}!</h1>
-    <p>Your account has been successfully created. Now you can <a href="{% url "login" %}">log in</a>.</p>
+
+    <!-- Heading -->
+    <div class="row section-heading">
+        <div class="col-12">
+            <h2>
+                Welcome on board {{ new_user.first_name }}!<br>
+                <small class="text-primary"><a
+                        href="{% url "login" %}">Your account has been successfully created. Now you can log in.</a></small>
+            </h2>
+        </div>
+    </div>
+
 {% endblock %}

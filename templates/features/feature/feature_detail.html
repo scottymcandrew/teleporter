@@ -8,11 +8,15 @@
 {% block content %}
 
     <div class="jumbotron">
-        <h3 class="d-flex justify-content-between">
+        <h3 class="d-flex justify-content-between mb-4">
+            <i class="fas {% if feature.category == 'User-Requested' %}fa-users-cog{% elif feature.category == 'Roadmap' %}fa-star{% endif %} fa-lg"
+               data-placement="bottom"
+               data-toggle="tooltip" title=""
+               data-original-title="Contributed by {% if feature.category == 'User-Requested' %}the User Community. Awesome!{% elif feature.category == 'Roadmap' %}the Teleportation Inc. Scientists!{% endif %}"></i>
             {{ feature.title }}<span><i class="fas fa-thumbs-up fa-lg text-secondary"
-                                         data-placement="bottom"
-                                         data-toggle="tooltip" title=""
-                                         data-original-title="Contributions so far!"></i>
+                                        data-placement="bottom"
+                                        data-toggle="tooltip" title=""
+                                        data-original-title="Contributions so far!"></i>
                         <span class="badge badge-secondary badge-pill bg-primary">{{ feature.purchases }}</span></span>
         </h3>
         <p>{{ feature.description }}</p>
@@ -30,7 +34,8 @@
                         {% csrf_token %}
                         <div class="row align-items-center justify-content-end">
                             <div class="col">
-                                <label class="control-label text-center" for="add-to-cart-form">Want to contribute?</label>
+                                <label class="control-label text-center" for="add-to-cart-form">Want to
+                                    contribute?</label>
                                 <input class="form-control form-control-sm" name="quantity" type="number" min="1"
                                        max="99"
                                        id="add-to-cart-form"

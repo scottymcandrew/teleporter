@@ -1,15 +1,33 @@
 {% extends "base.html" %}
 
+{% load staticfiles %}
+
+{% load crispy_forms_tags %}
+
 {% block title %}Edit your account{% endblock %}
 
 {% block content %}
-    <h1>Changed something about yourself?</h1>
-    <p>Plese enter your personal updates below:</p>
-    <!-- multipart is to enable file uploads -->
-    <form action="." method="POST" enctype="multipart/form-data">
-        {{ user_form.as_p }}
-        {{ profile_form.as_p }}
-        {% csrf_token %}
-        <button class="btn btn-secondary" type="submit" value="Save Changes">Save your changes</button>
-    </form>
+
+    <!-- Heading -->
+    <div class="row section-heading">
+        <div class="col-12">
+            <h2>
+                {{ request.user }}, do you need to edit your details?<br>
+                <small class="text-primary">Make any changes to your profile below</small>
+            </h2>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col form-group">
+            <!-- multipart is to enable file uploads - profile picture -->
+            <form action="." method="POST" enctype="multipart/form-data">
+                {{ user_form|crispy }}
+                {{ profile_form|crispy }}
+                {% csrf_token %}
+                <button class="btn btn-secondary" type="submit" value="Save Changes">Save your changes</button>
+            </form>
+        </div>
+    </div>
+
 {% endblock %}

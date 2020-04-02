@@ -45,7 +45,9 @@ def checkout(request):
 
             if customer.paid:
                 messages.error(request, 'You have paid successfully!')
+                feature.status = 'Funded'
                 feature.save()
+                feature.funders.add(request.user.pk)
                 request.session['cart'] = {}
                 return redirect(reverse('all_features'))
             else:

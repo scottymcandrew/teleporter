@@ -1,12 +1,65 @@
 {% extends "base.html" %}
 
+{% load staticfiles %}
+
 {% block title %}User Dashboard{% endblock %}
 
 {% block content %}
 
-    <h1>User Dashboard</h1>
+    <!-- Heading -->
+    <div class="row section-heading">
+        <div class="col-12">
+            <h2>
+                {{ request.user }}'s Dashboard<br>
+                <small class="text-primary">Here you will be able to update your details and view some of your
+                    statistics</small>
+            </h2>
+        </div>
+    </div>
 
-    <p>Welcome to your dashboard. You can <a href="{% url "edit" %}">update your profile</a>
-        or <a href="{% url "password_change" %}">change your password</a>.</p>
+    <!-- User Control Panel -->
+    <div class="row user-control-panel mt-4 mb-4">
+        <div class="col-sm-12 d-flex justify-content-between">
+            <a href="{% url "edit" %}" data-placement="bottom" data-toggle="tooltip" title=""
+               data-original-title="Edit my Profile" class="btn btn-secondary" role="button"><i
+                    class="fas fa-user-circle fa-2x" aria-hidden="true"></i></a>
+            <a href="{% url "password_change" %}" data-placement="bottom" data-toggle="tooltip" title=""
+               data-original-title="Change my password" class="btn btn-secondary" role="button"><i
+                    class="fas fa-unlock fa-2x" aria-hidden="true"></i></a>
+        </div>
+    </div>
+
+    <div class="card border-primary mb-3">
+        <div class="card-body">
+            <h4 class="card-title text-center">My Feature Contributions</h4>
+            <canvas id="my_features_chart" data-url="{% url 'my_features_chart' %}"></canvas>
+        </div>
+    </div>
+
+    <div class="card border-primary mb-3">
+        <div class="card-body">
+            <h4 class="card-title text-center">My Most Recent Bug Votes</h4>
+            <ul class="list-group list-group-flush">
+                {% if bug %}
+                    {% for bug in my_voted_bugs %}
+                        <li class="list-group-item text-center"><a href="{% url 'bug_detail' bug.id %}">{{ bug }}</a></li>
+                    {% endfor %}
+                {% else %}
+                    <li class="list-group-item text-primary text-center"><i class="fas fa-smile-wink fa-lg"></i> You haven't had to raise any bugs. Fantastic!</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    {#    <div id="container">#}
+    {#        <canvas id="all_features_chart" data-url="{% url 'all_features_chart' %}"></canvas>#}
+    {#    </div>#}
+
+{% endblock %}
+
+{% block specific_template_scripts %}
+
+    <!-- chart.js -->
+    <script src="{% static 'js/dashboard_graph.js' %}"></script>
 
 {% endblock %}

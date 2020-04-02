@@ -1,10 +1,18 @@
 {% extends "base.html" %}
 
+{% load staticfiles %}
+
 {% block title %}Logged out{% endblock %}
 
 {% block content %}
 
-    <h1>Logged out</h1>
-    <p>You are now logged out. You can <a href="{% url "login" %}">log-in again</a>.</p>
+    <!-- Heading -->
+    <div class="row section-heading">
+        <div class="col-12">
+            <h2>You've been logged out!</h2>
+            <br>
+            <h4>You can <a href="{% url "login" %}">log-in again here</a>.</h4>
+        </div>
+    </div>
 
 {% endblock %}

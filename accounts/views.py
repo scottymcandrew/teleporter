@@ -1,8 +1,11 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
+from features.models import Feature
+from bugs.models import Bug
 from .models import Profile
 from django.contrib import messages
 
@@ -83,5 +86,27 @@ def edit(request):
 
 @login_required
 def user_dashboard(request):
+    my_voted_bugs = Bug.objects.all().select_related().filter(votes=request.user).order_by('-created')[:5]
     return render(request, 'accounts/user_dashboard.html',
-                  {'section': user_dashboard})
+                  {'section': user_dashboard,
+                   'my_voted_bugs': my_voted_bugs})
+
+
+def my_features_chart(request):
+    """
+    Features that the calling user have contributed to, for use in chart.js
+    """
+    labels = []
+    data = []
+
+    # Return all features where the calling user has contributed (paid!)
+    queryset = Feature.objects.all().select_related().filter(funders=request.user).values()
+    for entry in queryset:
+        labels.append(entry['title'])
+        data.append(entry['purchases'])
+
+    return JsonResponse(data={
+        'labels': labels,
+        'data': data,
+    })
+

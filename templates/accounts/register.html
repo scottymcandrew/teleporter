@@ -1,13 +1,30 @@
 {% extends "base.html" %}
 
+{% load staticfiles %}
+
+{% load crispy_forms_tags %}
+
 {% block title %}Create an account{% endblock %}
 
 {% block content %}
-    <h1>Create your shiny new account!</h1>
-    <p>Fill in your details below:</p>
-    <form action="." method="post">
-        {{ user_form.as_p }}
-        {% csrf_token %}
-        <button class="btn btn-secondary" type="submit" value="Create my account">Create Account!</button>
-    </form>
+
+    <!-- Heading -->
+    <div class="row section-heading">
+        <div class="col-12">
+            <h2>
+                Want to join the Teleportation revolution?<br>
+                <small class="text-primary">Fill in your details below</small>
+            </h2>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col form-group">
+            <form action="." method="post">
+                {{ user_form|crispy }}
+                {% csrf_token %}
+                <button class="btn btn-secondary" type="submit" value="Create my account">Create Account!</button>
+            </form>
+        </div>
+    </div>
 {% endblock %}

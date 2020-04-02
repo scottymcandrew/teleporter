@@ -64,3 +64,8 @@
     margin-top: 15px;
     margin-left: 5px;
 }
+
+.fa-lg,
+.fa-2x {
+  vertical-align: middle;
+}

@@ -12,7 +12,9 @@ def about_us(request):
 
 
 def service_stats(request):
-    return render(request, 'public/service_stats.html')
+    implemented_features = Feature.objects.all().filter(category='Roadmap').filter(status='Implemented').order_by('-purchases')[:5]
+    return render(request, 'public/service_stats.html',
+                  {'implemented_features': implemented_features})
 
 
 # def all_features_chart(request):

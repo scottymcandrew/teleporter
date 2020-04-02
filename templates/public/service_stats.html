@@ -33,9 +33,10 @@
             <h4 class="card-title text-center">Implemented Roadmap Features</h4>
             <ul class="list-group list-group-item-action">
                 {% for feature in implemented_features %}
-                    <li class="list-group-item text-center text-secondary">
+                    <li class="list-group-item text-center">
                         <div class="d-flex align-items-center justify-content-between">
-                            <span><a href="{% url 'feature_detail' feature.id %}">{{ feature }}</a></span>
+                            <span><strong><a
+                                    href="{% url 'feature_detail' feature.id %}">{{ feature }}</a></strong></span>
                             <span>{{ feature.description|truncatewords:10 }}</span>
                         </div>
                     </li>
@@ -43,5 +44,51 @@
             </ul>
         </div>
     </div>
+
+    <div class="mt-4" id="container">
+        <div class="row">
+            <div class="col">
+                <h4>Latest Active Features and Contributions</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <canvas id="all_features_chart" data-url="{% url 'all_features_chart' %}"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4" id="container">
+        <div class="row">
+            <div class="col">
+                <h4>Latest Active Bugs</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <canvas id="all_bugs_chart" data-url="{% url 'all_bugs_chart' %}"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4" id="container">
+        <div class="row">
+            <div class="col">
+                <h4>Resolved Bugs</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <canvas id="resolved_bugs_chart" data-url="{% url 'resolved_bugs_chart' %}"></canvas>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block specific_template_scripts %}
+
+    <!-- chart.js -->
+    <script src="{% static 'js/dashboard_graph.js' %}"></script>
 
 {% endblock %}

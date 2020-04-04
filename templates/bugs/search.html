@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
+
 {% load crispy_forms_tags %}
 
 {% block title %}Bug Search{% endblock %}
@@ -8,37 +10,55 @@
 
     {% if query %}
 
-        <h3>Bugs containing {{ query }}</h3>
+        <!-- Heading -->
+        <div class="row section-heading mb-4">
+            <div class="col">
+                <h2>Bugs containing {{ query }}</h2>
+                <h5>
+                    {% with results.count as total_results %}
+                        Found {{ total_results }} result{{ total_results|pluralize }}
+                    {% endwith %}
+                </h5>
+            </div>
+        </div>
 
-        <h4>
-            {% with results.count as total_results %}
-                Found {{ total_results }} result{{ total_results|pluralize }}
-            {% endwith %}
-        </h4>
+        <div class="row mt-4">
+            <div class="col">
+                <ul class="list-group">
+                    {% for bug in results %}
+                        <li class="list-group-item">
+                            <a href="{{ bug.get_absolute_url }}">{{ bug.title }}</a>
+                            {{ bug.description|truncatewords:6 }}
+                        </li>
 
-        <ul class="collection">
-            {% for bug in results %}
+                    {% empty %}
+                        <li class="list-group-item">
+                            <a href="{% url "bug_search" %}">Nothing found. Please try searching again.</a>
+                        </li>
 
-                <li class="collection-item avatar bug-list-item">
-                    <a href="{{ bug.get_absolute_url }}">{{ bug.title }}</a>
-                    {{ bug.description|truncatewords:6 }}
-                </li>
-            {% empty %}
-                <li class="collection-item avatar bug-list-item">
-                    <a href="{% url "bug_search" %}">Nothing found. Please try searching again.</a>
-                </li>
-
-            {% endfor %}
-        </ul>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
 
     {% else %}
 
-        <h3>Search for posts</h3>
-        <form action="." method="GET">
-            {{ form|crispy }}
-            {% csrf_token %}
-            <button class="btn btn-secondary" type="submit" value="Search">Search</button>
-        </form>
+        <!-- Heading -->
+        <div class="row section-heading">
+            <div class="col">
+                <h2>Search for Bugs</h2>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col form-group">
+                <form action="." method="GET">
+                    {{ form|crispy }}
+                    {% csrf_token %}
+                    <button class="btn btn-secondary" type="submit" value="Search">Search</button>
+                </form>
+            </div>
+        </div>
 
     {% endif %}
 

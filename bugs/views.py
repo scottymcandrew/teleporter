@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy, reverse
@@ -110,6 +111,31 @@ def bug_vote(request):
             else:
                 bug.votes.remove(request.user)
             return JsonResponse({'status': 'ok'})
+        except:
+            pass
+    return JsonResponse({'status': 'ko'})
+
+
+@ajax_required
+@login_required
+@require_POST
+def update_bug_status(request):
+    """
+    This function is to facilitate site owners to update bug status in addition to admin console
+    """
+    bug_id = request.POST.get('id')
+    action = request.POST.get('action')
+    if bug_id and action:
+        try:
+            bug = Bug.objects.get(id=bug_id)
+            bug.status = action
+            # If the action is to set a status other than resolved, while the bug has a resolved timestamp, clear it
+            if action != 'Resolved' and bug.when_resolved:
+                bug.when_resolved = None
+            if action == 'Resolved':
+                bug.when_resolved = datetime.now()
+            bug.save()
+            return JsonResponse({'status': 'ok', 'bug_status': action})
         except:
             pass
     return JsonResponse({'status': 'ko'})

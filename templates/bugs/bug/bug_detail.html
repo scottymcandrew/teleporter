@@ -13,7 +13,9 @@
         <hr class="my-4">
         <div class="bug-details row">
             <div class="col-9">
-                <p>Current status: {{ bug.status }}</p>
+                <p>Current status: <span
+                        class="badge status-badge badge-{% if bug.status == 'Open' %}secondary{% elif bug.status == 'Active' %}info{% elif bug.status == 'Testing' %}warning{% elif bug.status == 'Resolved' %}success{% endif %}"> {{ bug.status }}</span>
+                </p>
                 <small>Created by: <strong>{{ bug.author }}</strong>, on {{ bug.created }}</small>
             </div>
             <div class="col-3 d-flex justify-content-end align-items-center">
@@ -41,6 +43,26 @@
             <span class="lead">
                 <a class="btn btn-danger btn-lg" href="{% url 'bug_delete' bug.id %}" role="button">*Delete</a>
             </span>
+            {% if request.user.is_staff %}
+                <div class="btn-group" role="group" aria-label="Bug Status Update Button">
+                    <button type="button" class="btn btn-info btn-lg">Update Status</button>
+                    <div class="btn-group" role="group">
+                        <button id="btnGroupDrop3" type="button" class="btn btn-info dropdown-toggle"
+                                data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false"></button>
+                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop3" style="">
+                            <a class="dropdown-item update-bug-status-item" href="#" data-id="{{ bug.id }}"
+                               data-action="Open">Open</a>
+                            <a class="dropdown-item update-bug-status-item" href="#" data-id="{{ bug.id }}"
+                               data-action="Active">Active</a>
+                            <a class="dropdown-item update-bug-status-item" href="#" data-id="{{ bug.id }}"
+                               data-action="Testing">Testing</a>
+                            <a class="dropdown-item update-bug-status-item" href="#" data-id="{{ bug.id }}"
+                               data-action="Resolved">Resolved</a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
         {% endif %}
     </div>
 
@@ -116,6 +138,26 @@
                             // update total votes
                             var previous_votes = parseInt($('span.vote-count .total').text());
                             $('span.vote-count .total').text(previous_action == 'vote' ? previous_votes + 1 : previous_votes - 1);
+                        }
+                    });
+            });
+
+            // Update bug status from dropdown button
+            $('a.update-bug-status-item').click(function (e) {
+                e.preventDefault();
+                $.post('{% url "update_bug_status" %}',
+                    {
+                        id: $(this).data('id'),
+                        action: $(this).data('action')
+                    },
+                    function (data) {
+                        if (data['status'] === 'ok') {
+                            // update bug status
+                            location.reload();
+                            // The line of code below is a full AJAX version. The trouble is the page needs to be
+                            // refreshed because there is Django logic to update badge colour based on value!
+                            // $('span.status-badge').text(data['bug_status']);
+
                         }
                     });
             });

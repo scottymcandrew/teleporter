@@ -30,6 +30,7 @@ class Bug(models.Model):
     created = models.DateTimeField(auto_now_add=True, db_index=True)
     status = models.CharField(max_length=10, default='Open')
     when_resolved = models.DateTimeField(auto_now_add=False, null=True)
+    archived = models.BooleanField(default=False)
 
     def get_absolute_url(self):
         return reverse('bug_detail', args=[self.id])

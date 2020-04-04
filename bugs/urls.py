@@ -10,4 +10,5 @@ urlpatterns = [
     path('search/', views.bug_search, name='bug_search'),
     path('<pk>/edit/', views.BugEdit.as_view(), name='bug_edit'),
     path('<pk>/delete/', views.BugDelete.as_view(), name='bug_delete'),
+    path('update_bug_status/', views.update_bug_status, name='update_bug_status'),
 ]

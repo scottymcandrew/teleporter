@@ -11,8 +11,7 @@
         <div class="col-12">
             <h2>
                 {{ request.user }}'s Dashboard<br>
-                <small class="text-primary">Here you will be able to update your details and view some of your
-                    statistics</small>
+                <small class="text-primary">Here you will be able to update your details and view your statistics</small>
             </h2>
         </div>
     </div>
@@ -31,7 +30,7 @@
 
     <div class="card border-primary mb-3">
         <div class="card-body">
-            <h4 class="card-title text-center">My Feature Contributions</h4>
+            <h4 class="card-title text-center">My Latest Feature Contributions</h4>
             <canvas id="my_features_chart" data-url="{% url 'my_features_chart' %}"></canvas>
         </div>
     </div>
@@ -42,7 +41,7 @@
             <ul class="list-group list-group-flush">
                 {% if bug %}
                     {% for bug in my_voted_bugs %}
-                        <li class="list-group-item text-center"><a href="{% url 'bug_detail' bug.id %}">{{ bug }}</a></li>
+                        <li class="list-group-item text-center text-secondary"><a href="{% url 'bug_detail' bug.id %}">{{ bug }}</a></li>
                     {% endfor %}
                 {% else %}
                     <li class="list-group-item text-primary text-center"><i class="fas fa-smile-wink fa-lg"></i> You haven't had to raise any bugs. Fantastic!</li>

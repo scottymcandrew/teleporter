@@ -36,7 +36,7 @@
     <div class="container-fluid bug-list-container">
         <ul class="list-group">
             {% for bug in bugs %}
-                {% if bug.status != 'Resolved' %}
+                {% if not bug.archived %}
                     <li class="list-group-item">
                         <div class="row bug-list-item-container">
                             <div class="col-2">
@@ -70,17 +70,7 @@
                             </div>
                         </div>
                         <div class="row bug-list-item-footer d-flex justify-content-between">
-                            <span class="badge
-                            {% if bug.status == Open %}
-                            badge-secondary
-                            {% elif bug.status == Active %}
-                            badge-secondary
-                            {% elif bug.status == Testing %}
-                            badge-secondary
-                            {% else %}
-                            badge-secondary
-                            {% endif %}
-                            ">STATUS: {{ bug.status }}</span>
+                            <span class="badge badge-{% if bug.status == 'Open' %}secondary{% elif bug.status == 'Active' %}info{% elif bug.status == 'Testing' %}warning{% else %}success{% endif %}">STATUS: {{ bug.status }}</span>
                             <span class="badge badge-primary">Raised by: <em>{{ bug.author }}</em> on {{ bug.created }}</span>
                         </div>
                     </li>

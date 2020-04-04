@@ -7,6 +7,7 @@
 
 {% block content %}
 
+    <!-- Feature Jumbotron -->
     <div class="jumbotron">
         <h3 class="d-flex justify-content-between mb-4">
             <i class="fas {% if feature.category == 'User-Requested' %}fa-users-cog{% elif feature.category == 'Roadmap' %}fa-star{% endif %} fa-lg"
@@ -24,7 +25,7 @@
         <div class="feature-details row">
             <div class="col-6">
                 <p>Current status: <span
-                        class="badge badge-{% if feature.status == 'Requested' %}secondary{% elif feature.status == 'Implementing' %}warning{% elif feature.status == 'Testing' %}info{% else %}success{% endif %}">{{ feature.status }}</span>
+                        class="badge status-badge badge-{% if feature.status == 'Requested' %}secondary{% elif feature.status == 'Implementing' %}warning{% elif feature.status == 'Testing' %}info{% else %}success{% endif %}">{{ feature.status }}</span>
                 </p>
                 <small>Created by: <strong>{{ feature.author }}</strong>, on {{ feature.created }}</small>
             </div>
@@ -55,6 +56,7 @@
                 </div>
             </div>
         </div>
+        <!-- Owner / Admin Control Panel -->
         {% if request.user == feature.author or request.user.is_staff %}
             <hr class="my-4">
             <h4>Feature Owner Danger Zone...</h4>
@@ -65,6 +67,25 @@
             <span class="lead">
                 <a class="btn btn-danger btn-lg" href="{% url 'feature_delete' feature.id %}" role="button">*Delete</a>
             </span>
+            <div class="btn-group" role="group" aria-label="Feature Status Update Button">
+                <button type="button" class="btn btn-info btn-lg">Update Status</button>
+                <div class="btn-group" role="group">
+                    <button id="btnGroupDrop3" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false"></button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop3" style="">
+                        <a class="dropdown-item update-feature-status-item" href="#" data-id="{{ feature.id }}"
+                           data-action="Requested">Requested</a>
+                        <a class="dropdown-item update-feature-status-item" href="#" data-id="{{ feature.id }}"
+                           data-action="Funded">Funded</a>
+                        <a class="dropdown-item update-feature-status-item" href="#" data-id="{{ feature.id }}"
+                           data-action="Implementing">Implementing</a>
+                        <a class="dropdown-item update-feature-status-item" href="#" data-id="{{ feature.id }}"
+                           data-action="Testing">Testing</a>
+                        <a class="dropdown-item update-feature-status-item" href="#" data-id="{{ feature.id }}"
+                           data-action="Implemented">Implemented</a>
+                    </div>
+                </div>
+            </div>
         {% endif %}
     </div>
 
@@ -98,5 +119,49 @@
         {% csrf_token %}
         <button class="btn btn-secondary mb-4" type="submit" value="Add comment">Add comment</button>
     </form>
+
+{% endblock %}
+
+{% block specific_template_scripts %}
+
+    <! -- This Script deals with Ajax CSFR and to provide the voting functionality. -->
+    <! -- If I place this in a separate js file it doesn't work, hence why including here -->
+    <script>
+        var csrftoken = Cookies.get('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+        $(document).ready(function () {
+            $('a.update-feature-status-item').click(function (e) {
+                e.preventDefault();
+                $.post('{% url "update_feature_status" %}',
+                    {
+                        id: $(this).data('id'),
+                        action: $(this).data('action')
+                    },
+                    function (data) {
+                        if (data['status'] === 'ok') {
+                            // update feature status
+                            location.reload();
+                            // The line of code below is a full AJAX version. The trouble is the page needs to be
+                            // refreshed because there is Django logic to update badge colour based on value!
+                            // $('span.status-badge').text(data['feature_status']);
+
+                        }
+                    });
+            });
+        });
+    </script>
 
 {% endblock %}

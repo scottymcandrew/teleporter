@@ -30,10 +30,12 @@
     <div class="collapse navbar-collapse" id="navbarColor02">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="{% url "about_us" %}"><i class="fas fa-info-circle fa-lg"></i></a>
+                <a class="nav-link" data-placement="bottom" data-toggle="tooltip" title=""
+               data-original-title="About Teleportation Inc." href="{% url "about_us" %}"><i class="fas fa-info-circle fa-lg"></i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url "user_dashboard" %}"><i class="fas fa-tachometer-alt fa-lg"></i></a>
+                <a class="nav-link" data-placement="bottom" data-toggle="tooltip" title=""
+               data-original-title="My Dashboard / Profile" href="{% url "user_dashboard" %}"><i class="fas fa-tachometer-alt fa-lg"></i></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url "all_features" %}">Features</a>

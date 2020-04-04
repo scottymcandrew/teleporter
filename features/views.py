@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.postgres.search import SearchVector
 from django.contrib.auth.decorators import login_required
 from common.decorators import ajax_required
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_POST
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Feature, FeatureComment
@@ -94,7 +94,30 @@ def request_feature(request):
         return render(request, 'features/request_feature.html', {'form': form})
 
 
+@ajax_required
+@login_required
+@require_POST
+def update_feature_status(request):
+    """
+    This function is to facilitate site owners to update feature status in addition to admin console
+    """
+    feature_id = request.POST.get('id')
+    action = request.POST.get('action')
+    if feature_id and action:
+        try:
+            feature = Feature.objects.get(id=feature_id)
+            feature.status = action
+            feature.save()
+            return JsonResponse({'status': 'ok', 'feature_status': action})
+        except:
+            pass
+    return JsonResponse({'status': 'ko'})
+
+
 def feature_search(request):
+    """
+    Search for a feature by title or description
+    """
     form = SearchForm
     query = None
     results = []
@@ -111,6 +134,9 @@ def feature_search(request):
 
 
 class FeatureEdit(SuccessMessageMixin, UpdateView):
+    """
+    Uses Django Edit Form to provie update facility for a feature
+    """
     model = Feature
     fields = ['title', 'description']
     template_name_suffix = '_update_form'
@@ -123,6 +149,9 @@ class FeatureEdit(SuccessMessageMixin, UpdateView):
 
 
 class FeatureDelete(SuccessMessageMixin, DeleteView):
+    """
+    Uses Django Edit Form to provie update facility for a feature
+    """
     model = Feature
     success_url = reverse_lazy('all_features')
     success_message = "Oh well, looks like you really did delete %(title)"

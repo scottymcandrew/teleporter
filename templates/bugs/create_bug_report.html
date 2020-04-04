@@ -1,18 +1,31 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
+
 {% load crispy_forms_tags %}
 
 {% block title %}Bug Report{% endblock %}
 
 {% block content %}
 
-    <h2>Discovered a bug in our teleportation system?</h2>
-    <p class="text-primary">Please enter as much information as possible on the issue:</p>
+    <!-- Heading -->
+    <div class="row section-heading">
+        <div class="col-12">
+            <h2>
+                Discovered a bug in our teleportation system?<br>
+                <small class="text-primary">Please enter as much information as possible on the issue:</small>
+            </h2>
+        </div>
+    </div>
 
-    <form action="." method="POST">
-        {{ form|crispy }}
-        {% csrf_token %}
-        <button class="btn btn-secondary" type="submit" value="Save bug report">Save bug report</button>
-    </form>
+    <div class="row mt-4">
+        <div class="col form-group">
+            <form action="." method="POST">
+                {{ form|crispy }}
+                {% csrf_token %}
+                <button class="btn btn-secondary" type="submit" value="Save bug report">Save bug report</button>
+            </form>
+        </div>
+    </div>
 
 {% endblock %}

@@ -59,7 +59,7 @@ $(function () {
                     labels: data.labels,
                     datasets: [{
                         label: 'Feature',
-                        backgroundColor: '#F3969A',
+                        backgroundColor: '#56CC9D',
                         data: data.data
                     }]
                 },

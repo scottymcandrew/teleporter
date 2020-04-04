@@ -4,15 +4,29 @@
 
 {% block content %}
 
-    <h3>Delete my Feature</h3>
+    <!-- Heading -->
+    <div class="row section-heading">
+        <div class="col-12">
+            <h2>
+                Delete my Feature<br>
+                <small class="text-primary">Uh oh, you don't think this feature was too ambitious do you?</small>
+            </h2>
+        </div>
+    </div>
 
-<form method="post">
-    {% csrf_token %}
-    <p>You really don't want this feature anymore? Do you <em>really</em> want to delete "{{ object }}", forever, and ever?</p>
-    <button class="btn btn-secondary" type="submit" value="Confirm">Confirm Deletion</button>
-    <br>
-    <p class="mb-1 mt-4">NO! I need to get out of here</p>
-    <a href="{% url 'all_bugs' %}" class="btn btn-danger">CANCEL!</a>
-</form>
+    <div class="row mt-4">
+        <div class="col form-group">
+            <form method="post">
+                {% csrf_token %}
+                <p>You really don't want this feature anymore? Do you <em>really</em> want to delete "{{ object }}",
+                    forever,
+                    and ever?</p>
+                <button class="btn btn-secondary" type="submit" value="Confirm">Confirm Deletion</button>
+                <br>
+                <p class="mb-1 mt-4">NO! I need to get out of here</p>
+                <a href="{% url 'all_bugs' %}" class="btn btn-danger">CANCEL!</a>
+            </form>
+        </div>
+    </div>
 
 {% endblock %}

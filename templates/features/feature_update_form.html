@@ -1,20 +1,35 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
+
 {% load crispy_forms_tags %}
 
 {% block title %}Update my Feature{% endblock %}
 
 {% block content %}
 
-    <h3>Update my Feature</h3>
+    <!-- Heading -->
+    <div class="row section-heading">
+        <div class="col-12">
+            <h2>
+                Update my Feature<br>
+                <small class="text-primary">Think this feature could be made even <em>more</em> awesome?</small>
+            </h2>
+        </div>
+    </div>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <button class="btn btn-secondary" type="submit" value="Update">Confirm Updates</button>
-        <br>
-        <p class="mb-1 mt-4">I've changed my mind, this feature is as good as it gets!</p>
-        <a href="{% url 'all_features' %}" class="btn btn-danger mb-4">CANCEL!</a>
-    </form>
+
+    <div class="row mt-4">
+        <div class="col form-group">
+            <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button class="btn btn-secondary" type="submit" value="Update">Confirm Updates</button>
+                <br>
+                <p class="mb-1 mt-4">I've changed my mind, this feature is as good as it gets!</p>
+                <a href="{% url 'all_features' %}" class="btn btn-danger mb-4">CANCEL!</a>
+            </form>
+        </div>
+    </div>
 
 {% endblock %}

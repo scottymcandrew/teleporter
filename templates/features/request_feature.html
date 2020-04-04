@@ -1,19 +1,34 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
+
 {% load crispy_forms_tags %}
 
 {% block title %}Request a New Feature{% endblock %}
 
 {% block content %}
 
-    <h2>Think you could improve our Teleportation system?</h2>
-    <p class="text-primary">Please detail what you would like to see. If it's possible, and we receive enough requests,
-        our mad scientists will get to work!</p>
+    <!-- Heading -->
+    <div class="row section-heading">
+        <div class="col-12">
+            <h2>
+                Think you could improve our Teleportation system?<br>
+                <small class="text-primary">Please detail what you would like to see. If it's possible, and we receive
+                    enough requests,
+                    our mad scientists will get to work!</small>
+            </h2>
+        </div>
+    </div>
 
-    <form action="." method="POST">
-        {{ form|crispy }}
-        {% csrf_token %}
-        <button class="btn btn-secondary" type="submit" value="Save feature request">Save feature request</button>
-    </form>
+    <div class="row mt-4">
+        <div class="col form-group">
+            <form action="." method="POST">
+                {{ form|crispy }}
+                {% csrf_token %}
+                <button class="btn btn-secondary" type="submit" value="Save feature request">Save feature request
+                </button>
+            </form>
+        </div>
+    </div>
 
 {% endblock %}

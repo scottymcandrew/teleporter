@@ -9,4 +9,5 @@ urlpatterns = [
     path('search/', views.feature_search, name='feature_search'),
     path('<pk>/edit/', views.FeatureEdit.as_view(), name='feature_edit'),
     path('<pk>/delete/', views.FeatureDelete.as_view(), name='feature_delete'),
+    path('update_feature_status/', views.update_feature_status, name='update_feature_status'),
 ]

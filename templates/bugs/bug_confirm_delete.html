@@ -1,18 +1,35 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
+
+{% load crispy_forms_tags %}
+
 {% block title %}Delete my Bug{% endblock %}
 
 {% block content %}
 
-    <h3>Delete my Bug</h3>
+    <!-- Heading -->
+    <div class="row section-heading">
+        <div class="col-12">
+            <h2>
+                Delete my Bug<br>
+                <small class="text-primary">Did you turn it off and on again to fix it?! Was it incorrect?</small>
+            </h2>
+        </div>
+    </div>
 
-<form method="post">
-    {% csrf_token %}
-    <p>Have you really thought this through? Do you <em>really</em> want to delete "{{ object }}", forever, and ever?</p>
-    <button class="btn btn-secondary" type="submit" value="Confirm">Confirm Deletion</button>
-    <br>
-    <p class="mb-1 mt-4">NO! I need to get out of here</p>
-    <a href="{% url 'all_bugs' %}" class="btn btn-danger">CANCEL!</a>
-</form>
+    <div class="row mt-4">
+        <div class="col form-group">
+            <form method="post">
+                {% csrf_token %}
+                <p>Have you really thought this through? Do you <em>really</em> want to delete "{{ object }}", forever,
+                    and ever?</p>
+                <button class="btn btn-secondary" type="submit" value="Confirm">Confirm Deletion</button>
+                <br>
+                <p class="mb-1 mt-4">NO! I need to get out of here</p>
+                <a href="{% url 'all_bugs' %}" class="btn btn-danger">CANCEL!</a>
+            </form>
+        </div>
+    </div>
 
 {% endblock %}

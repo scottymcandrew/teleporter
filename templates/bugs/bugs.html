@@ -39,7 +39,7 @@
                 {% if not bug.archived %}
                     <li class="list-group-item">
                         <div class="row bug-list-item-container">
-                            <div class="col-2">
+                            <div class="col-2 col-md-2">
                                 <i class="fas fa-bug fa-2x
                                               {% if bug.severity == 'Low' %} text-info
                                               {% elif bug.severity == 'Medium' %} text-warning
@@ -51,16 +51,16 @@
                                    data-original-title="Severity: {{ bug.severity }}">
                                 </i>
                             </div>
-                            <div class="col-7 align-self-center">
+                            <div class="col-10 col-md-7 align-self-center flex-sm-grow-1">
                                 <h6 class="font-weight-bold"><a href="{% url "bug_detail" bug.id %}">{{ bug.title }}</a>
                                 </h6>
                             </div>
-                            <div class="col-3 d-flex justify-content-around">
-                                <div class="bug-status-icon">
+                            <div class="col-12 col-md-3 d-flex">
+                                <div class="bug-status-icon mr-2 pt-2 pt-md-0">
                                     <i class="fas fa-comments fa-lg text-secondary"></i>
                                     <span class="badge badge-secondary badge-pill bg-primary">{{ bug.comments.count }}</span>
                                 </div>
-                                <div class="bug-status-icon">
+                                <div class="bug-status-icon pt-2 pt-md-0">
                                     <i class="fas fa-thumbs-up fa-lg text-secondary"
                                        data-placement="bottom"
                                        data-toggle="tooltip" title=""
@@ -69,10 +69,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row bug-list-item-footer d-flex justify-content-between">
-                            <div class="col-sm-12 col-6">
+                        <div class="row bug-list-item-footer mt-2">
+                            <div class="col-6 col-md-3">
                                 <span class="badge badge-{% if bug.status == 'Open' %}secondary{% elif bug.status == 'Active' %}info{% elif bug.status == 'Testing' %}warning{% else %}success{% endif %}">STATUS: {{ bug.status }}</span>
-                                <span class="badge badge-primary">By: <em>{{ bug.author }}</em> on {{ bug.created }}</span>
+                            </div>
+                            <div class="col-12 col-md-2">
+                                <span class="badge badge-info">By: <em>{{ bug.author }}</em></span>
+                            </div>
+                            <div class="col-12 col-md-7">
+                                <span class="badge badge-primary">Created: {{ bug.created }}</span>
                             </div>
                         </div>
                     </li>

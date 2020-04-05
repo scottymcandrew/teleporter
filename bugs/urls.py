@@ -11,4 +11,5 @@ urlpatterns = [
     path('<pk>/edit/', views.BugEdit.as_view(), name='bug_edit'),
     path('<pk>/delete/', views.BugDelete.as_view(), name='bug_delete'),
     path('update_bug_status/', views.update_bug_status, name='update_bug_status'),
+    path('update_bug_severity/', views.update_bug_severity, name='update_bug_severity'),
 ]

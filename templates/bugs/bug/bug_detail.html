@@ -8,94 +8,140 @@
 {% block content %}
 
     <div class="jumbotron">
-        <h3>{{ bug.title }}</h3>
+        <h4>
+            <i class="fas fa-bug {% if bug.severity == 'Low' %}text-info{% elif bug.severity == 'Medium' %}text-warning{% elif bug.severity == 'High' %}text-secondary{% else %}text-danger{% endif %}"
+               data-placement="bottom"
+               data-toggle="tooltip" title=""
+               data-original-title="Severity: {{ bug.severity }}"></i> {{ bug.title }}</h4>
         <p>{{ bug.description }}</p>
         <hr class="my-4">
         <div class="bug-details row">
-            <div class="col-9">
+            <div class="col-8">
                 <p>Current status: <span
                         class="badge status-badge badge-{% if bug.status == 'Open' %}secondary{% elif bug.status == 'Active' %}info{% elif bug.status == 'Testing' %}warning{% elif bug.status == 'Resolved' %}success{% endif %}"> {{ bug.status }}</span>
                 </p>
                 <small>Created by: <strong>{{ bug.author }}</strong>, on {{ bug.created }}</small>
             </div>
-            <div class="col-3 d-flex justify-content-end align-items-center">
-                {% with total_votes=bug.votes.count users_vote=bug.votes.all %}
-                    <!-- If the user is the author, disallow removal of their vote -->
-                    <a href="#" data-id="{% if request.user == bug.author %}DISABLED{% endif %}{{ bug.id }}"
-                       data-action="{% if request.user in users_vote %}un{% endif %}vote"
-                       class="vote btn btn-secondary">
-                        <i class="fas fa-2x vote-icon {% if request.user not in users_vote %}fa-thumbs-up{% else %}fa-thumbs-down{% endif %}"></i>
-                    </a>
-                    <span class="badge badge-primary badge-pill vote-count align-self-start mt-2 ml-2">
+            <div class="col-4 d-flex justify-content-end align-items-center">
+                <div class="vote-container d-flex flex-column">
+                    {% with total_votes=bug.votes.count users_vote=bug.votes.all %}
+                        <span class="badge badge-primary badge-pill vote-count align-self-start mb-1">
                                         <span class="total">{{ total_votes }}</span>
                                         vote{{ total_votes|pluralize }}
-                    </span>
-                {% endwith %}
+                        </span>
+                        <!-- If the user is the author, disallow removal of their vote -->
+                        <a href="#" data-id="{% if request.user == bug.author %}DISABLED{% endif %}{{ bug.id }}"
+                           data-action="{% if request.user in users_vote %}un{% endif %}vote"
+                           class="vote btn btn-secondary">
+                            <i class="fas fa-lg vote-icon {% if request.user not in users_vote %}fa-thumbs-up{% else %}fa-thumbs-down{% endif %}"></i>
+                        </a>
+                    {% endwith %}
+                </div>
             </div>
         </div>
         {% if request.user == bug.author or request.user.is_staff %}
             <hr class="my-4">
-            <h4>Bug Owner Danger Zone...</h4>
-            <br>
-            <span class="lead">
-                <a class="btn btn-primary btn-lg" href="{% url "bug_edit" bug.id %}" role="button">Edit</a>
-            </span>
-            <span class="lead">
-                <a class="btn btn-danger btn-lg" href="{% url 'bug_delete' bug.id %}" role="button">*Delete</a>
-            </span>
-            {% if request.user.is_staff %}
-                <div class="btn-group" role="group" aria-label="Bug Status Update Button">
-                    <button type="button" class="btn btn-info btn-lg">Update Status</button>
-                    <div class="btn-group" role="group">
-                        <button id="btnGroupDrop3" type="button" class="btn btn-info dropdown-toggle"
-                                data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false"></button>
-                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop3" style="">
-                            <a class="dropdown-item update-bug-status-item" href="#" data-id="{{ bug.id }}"
-                               data-action="Open">Open</a>
-                            <a class="dropdown-item update-bug-status-item" href="#" data-id="{{ bug.id }}"
-                               data-action="Active">Active</a>
-                            <a class="dropdown-item update-bug-status-item" href="#" data-id="{{ bug.id }}"
-                               data-action="Testing">Testing</a>
-                            <a class="dropdown-item update-bug-status-item" href="#" data-id="{{ bug.id }}"
-                               data-action="Resolved">Resolved</a>
-                        </div>
-                    </div>
+            <div class="row">
+                <div class="col">
+                    <h4>Bug Owner Danger Zone...</h4>
                 </div>
-            {% endif %}
+            </div>
+            <br>
+            <div class="row">
+                <div class="col">
+                    <span class="lead">
+                        <a class="btn btn-primary " href="{% url "bug_edit" bug.id %}" role="button">Edit</a>
+                    </span>
+                    <span class="lead">
+                        <a class="btn btn-danger " href="{% url 'bug_delete' bug.id %}" role="button">*Delete</a>
+                    </span>
+                    {% if request.user.is_staff %}
+                        <div class="btn-group" role="group" aria-label="Bug Severity Update Button">
+                            <button type="button" class="btn btn-warning ">Severity</button>
+                            <div class="btn-group" role="group">
+                                <button id="btnGroupDrop4" type="button" class="btn btn-warning dropdown-toggle"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false"></button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop4" style="">
+                                    <a class="dropdown-item update-bug-severity-item" href="#" data-id="{{ bug.id }}"
+                                       data-action="Low">Low</a>
+                                    <a class="dropdown-item update-bug-severity-item" href="#" data-id="{{ bug.id }}"
+                                       data-action="Medium">Medium</a>
+                                    <a class="dropdown-item update-bug-severity-item" href="#" data-id="{{ bug.id }}"
+                                       data-action="High">High</a>
+                                    <a class="dropdown-item update-bug-severity-item" href="#" data-id="{{ bug.id }}"
+                                       data-action="Critical">Critical</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn-group" role="group" aria-label="Bug Status Update Button">
+                            <button type="button" class="btn btn-info ">Status</button>
+                            <div class="btn-group" role="group">
+                                <button id="btnGroupDrop3" type="button" class="btn btn-info dropdown-toggle"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false"></button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop3" style="">
+                                    <a class="dropdown-item update-bug-status-item" href="#" data-id="{{ bug.id }}"
+                                       data-action="Open">Open</a>
+                                    <a class="dropdown-item update-bug-status-item" href="#" data-id="{{ bug.id }}"
+                                       data-action="Active">Active</a>
+                                    <a class="dropdown-item update-bug-status-item" href="#" data-id="{{ bug.id }}"
+                                       data-action="Testing">Testing</a>
+                                    <a class="dropdown-item update-bug-status-item" href="#" data-id="{{ bug.id }}"
+                                       data-action="Resolved">Resolved</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
         {% endif %}
+
     </div>
 
     <!-- Comment cards -->
-    <div class="list-group">
-        {% for comment in comments %}
+    <div class="row">
+        <div class="col">
+            <div class="list-group">
+                {% for comment in comments %}
 
-            <div class="list-group-item list-group-item-action flex-column align-items-start active mb-4">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">{{ comment.author }}</h5>
-                    <small>{{ comment.created }}</small>
-                </div>
-                <p class="mb-1 mt-4">{{ comment.comment|linebreaks }}</p>
+                    <div class="list-group-item list-group-item-action flex-column align-items-start active mb-4">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{ comment.author }}</h5>
+                            <small>{{ comment.created }}</small>
+                        </div>
+                        <p class="mb-1 mt-4">{{ comment.comment|linebreaks }}</p>
+                    </div>
+
+                {% empty %}
+                    <div class="alert alert-dismissible alert-secondary">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <h4 class="alert-heading">No Comments!</h4>
+                        <p class="mb-0">There are no comments yet... could this mean the bug isn't real?</p>
+                    </div>
+
+                {% endfor %}
             </div>
-
-        {% empty %}
-            <div class="alert alert-dismissible alert-secondary">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <h4 class="alert-heading">No Comments!</h4>
-                <p class="mb-0">There are no comments yet... could this mean the bug isn't real?</p>
-            </div>
-
-        {% endfor %}
+        </div>
     </div>
 
-    {% include 'pagination.html' with page=comments %}
+    <div class="row">
+        <div class="col">
+            {% include 'pagination.html' with page=comments %}
+        </div>
+    </div>
 
-    <form action="." method="POST">
-        <legend>Add a new comment</legend>
-        {{ bug_comment_form|crispy }}
-        {% csrf_token %}
-        <button class="btn btn-secondary mb-4" type="submit" value="Add comment">Add comment</button>
-    </form>
+    <div class="row">
+        <div class="col">
+            <form action="." method="POST">
+                <legend>Add a new comment</legend>
+                {{ bug_comment_form|crispy }}
+                {% csrf_token %}
+                <button class="btn btn-secondary mb-4" type="submit" value="Add comment">Add comment</button>
+            </form>
+        </div>
+    </div>
+
 
 {% endblock %}
 
@@ -138,6 +184,22 @@
                             // update total votes
                             var previous_votes = parseInt($('span.vote-count .total').text());
                             $('span.vote-count .total').text(previous_action == 'vote' ? previous_votes + 1 : previous_votes - 1);
+                        }
+                    });
+            });
+
+            // Update bug severity from dropdown button
+            $('a.update-bug-severity-item').click(function (e) {
+                e.preventDefault();
+                $.post('{% url "update_bug_severity" %}',
+                    {
+                        id: $(this).data('id'),
+                        action: $(this).data('action')
+                    },
+                    function (data) {
+                        if (data['status'] === 'ok') {
+                            // update bug status
+                            location.reload();
                         }
                     });
             });

@@ -7,10 +7,10 @@
     <!-- Heading -->
     <div class="row section-heading">
         <div class="col-12">
-            <h2 class="ml-3">
+            <h3 class="ml-3">
                 Bugs<br>
                 <small class="text-primary">Issues with your teleportation experience? Report them here!</small>
-            </h2>
+            </h3>
         </div>
     </div>
 
@@ -52,8 +52,8 @@
                                 </i>
                             </div>
                             <div class="col-7 align-self-center">
-                                <h5 class="font-weight-bold"><a href="{% url "bug_detail" bug.id %}">{{ bug.title }}</a>
-                                </h5>
+                                <h6 class="font-weight-bold"><a href="{% url "bug_detail" bug.id %}">{{ bug.title }}</a>
+                                </h6>
                             </div>
                             <div class="col-3 d-flex justify-content-around">
                                 <div class="bug-status-icon">
@@ -70,8 +70,10 @@
                             </div>
                         </div>
                         <div class="row bug-list-item-footer d-flex justify-content-between">
-                            <span class="badge badge-{% if bug.status == 'Open' %}secondary{% elif bug.status == 'Active' %}info{% elif bug.status == 'Testing' %}warning{% else %}success{% endif %}">STATUS: {{ bug.status }}</span>
-                            <span class="badge badge-primary">Raised by: <em>{{ bug.author }}</em> on {{ bug.created }}</span>
+                            <div class="col-sm-12 col-6">
+                                <span class="badge badge-{% if bug.status == 'Open' %}secondary{% elif bug.status == 'Active' %}info{% elif bug.status == 'Testing' %}warning{% else %}success{% endif %}">STATUS: {{ bug.status }}</span>
+                                <span class="badge badge-primary">By: <em>{{ bug.author }}</em> on {{ bug.created }}</span>
+                            </div>
                         </div>
                     </li>
                 {% endif %}

@@ -141,6 +141,26 @@ def update_bug_status(request):
     return JsonResponse({'status': 'ko'})
 
 
+@ajax_required
+@login_required
+@require_POST
+def update_bug_severity(request):
+    """
+    This function is to facilitate site owners to update bug severity in addition to admin console
+    """
+    bug_id = request.POST.get('id')
+    action = request.POST.get('action')
+    if bug_id and action:
+        try:
+            bug = Bug.objects.get(id=bug_id)
+            bug.severity = action
+            bug.save()
+            return JsonResponse({'status': 'ok', 'bug_severity': action})
+        except:
+            pass
+    return JsonResponse({'status': 'ko'})
+
+
 def bug_search(request):
     form = SearchForm
     query = None
@@ -159,7 +179,7 @@ def bug_search(request):
 
 class BugEdit(SuccessMessageMixin, UpdateView):
     model = Bug
-    fields = ['title', 'description', 'severity', 'status']
+    fields = ['title', 'description']
     template_name_suffix = '_update_form'
     success_message = "Awesome, you just updated this bug"
 

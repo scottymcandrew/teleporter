@@ -9,47 +9,53 @@
 
     <!-- Feature Jumbotron -->
     <div class="jumbotron">
-        <h3 class="d-flex justify-content-between mb-4">
-            <i class="fas {% if feature.category == 'User-Requested' %}fa-users-cog{% elif feature.category == 'Roadmap' %}fa-star{% endif %} fa-lg"
-               data-placement="bottom"
-               data-toggle="tooltip" title=""
-               data-original-title="Contributed by {% if feature.category == 'User-Requested' %}the User Community. Awesome!{% elif feature.category == 'Roadmap' %}the Teleportation Inc. Scientists!{% endif %}"></i>
-            {{ feature.title }}<span><i class="fas fa-thumbs-up fa-lg text-secondary"
-                                        data-placement="bottom"
-                                        data-toggle="tooltip" title=""
-                                        data-original-title="Contributions so far!"></i>
-                        <span class="badge badge-secondary badge-pill bg-primary">{{ feature.purchases }}</span></span>
-        </h3>
-        <p>{{ feature.description }}</p>
+        <div class="row mb-4">
+            <div class="col-md-9 col-sm-12 flex-grow-1">
+                <h4>
+                    <i class="fas {% if feature.category == 'User-Requested' %}fa-users-cog{% elif feature.category == 'Roadmap' %}fa-star{% endif %} fa-lg text-primary"
+                       data-placement="bottom"
+                       data-toggle="tooltip" title=""
+                       data-original-title="Contributed by {% if feature.category == 'User-Requested' %}the User Community. Awesome!{% elif feature.category == 'Roadmap' %}the Teleportation Inc. Scientists!{% endif %}"></i> {{ feature.title }}
+                </h4>
+            </div>
+            <div class="col-md-2 col-sm-12"><i class="fas fa-thumbs-up fa-2x text-secondary"
+                                  data-placement="bottom"
+                                  data-toggle="tooltip" title=""
+                                  data-original-title="Contributions so far!"></i>
+                <span class="badge badge-secondary badge-pill bg-primary">{{ feature.purchases }}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>{{ feature.description }}</p>
+            </div>
+        </div>
+
         <hr class="my-4">
         <div class="feature-details row">
-            <div class="col-6">
+            <div class="col-md-6 col-sm-12">
                 <p>Current status: <span
                         class="badge status-badge badge-{% if feature.status == 'Requested' %}secondary{% elif feature.status == 'Implementing' %}warning{% elif feature.status == 'Testing' %}info{% else %}success{% endif %}">{{ feature.status }}</span>
                 </p>
                 <small>Created by: <strong>{{ feature.author }}</strong>, on {{ feature.created }}</small>
             </div>
-            <div class="col-6 d-flex justify-content-end">
+            <div class="col-md-6 col-sm-12 d-flex mt-3 mt-md-0">
                 <div class="form-group">
                     <form method="POST" action="{% url 'add_to_cart' feature.id %}">
                         {% csrf_token %}
-                        <div class="row align-items-center justify-content-end">
+                        <div class="row">
                             <div class="col">
-                                <label class="control-label text-center" for="add-to-cart-form">Want to
-                                    contribute?</label>
-                                <input class="form-control form-control-sm" name="quantity" type="number" min="1"
+                                <input class="form-control form-control-sm mb-2" name="quantity" type="number" min="1"
                                        max="99"
                                        id="add-to-cart-form"
                                        placeholder="Quantity">
-                            </div>
-                            <div class="col">
-                            <span class="input-group">
-                            <button class="card-link btn btn-outline-success" type="submit"><i
-                                    class="fas fa-cart-plus fa-2x"
-                                    data-placement="bottom"
-                                    data-toggle="tooltip" title=""
-                                    data-original-title="Contrbute to this feature!"></i></button>
-                            </span>
+                                <label class="control-label text-center" for="add-to-cart-form">Want to
+                                    contribute? </label>
+                                <button class="card-link btn btn-success" type="submit"><i
+                                        class="fas fa-cart-plus fa-lg"
+                                        data-placement="bottom"
+                                        data-toggle="tooltip" title=""
+                                        data-original-title="Contrbute to this feature!"></i></button>
                             </div>
                         </div>
                     </form>
@@ -59,30 +65,40 @@
         <!-- Owner / Admin Control Panel -->
         {% if request.user == feature.author or request.user.is_staff %}
             <hr class="my-4">
-            <h4>Feature Owner Danger Zone...</h4>
+            <div class="row">
+                <div class="col">
+                    <h4>Feature Owner Danger Zone...</h4>
+                </div>
+            </div>
             <br>
-            <span class="lead">
-                <a class="btn btn-primary btn-lg" href="{% url "feature_edit" feature.id %}" role="button">Edit</a>
-            </span>
-            <span class="lead">
-                <a class="btn btn-danger btn-lg" href="{% url 'feature_delete' feature.id %}" role="button">*Delete</a>
-            </span>
-            <div class="btn-group" role="group" aria-label="Feature Status Update Button">
-                <button type="button" class="btn btn-info btn-lg">Update Status</button>
-                <div class="btn-group" role="group">
-                    <button id="btnGroupDrop3" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false"></button>
-                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop3" style="">
-                        <a class="dropdown-item update-feature-status-item" href="#" data-id="{{ feature.id }}"
-                           data-action="Requested">Requested</a>
-                        <a class="dropdown-item update-feature-status-item" href="#" data-id="{{ feature.id }}"
-                           data-action="Funded">Funded</a>
-                        <a class="dropdown-item update-feature-status-item" href="#" data-id="{{ feature.id }}"
-                           data-action="Implementing">Implementing</a>
-                        <a class="dropdown-item update-feature-status-item" href="#" data-id="{{ feature.id }}"
-                           data-action="Testing">Testing</a>
-                        <a class="dropdown-item update-feature-status-item" href="#" data-id="{{ feature.id }}"
-                           data-action="Implemented">Implemented</a>
+            <div class="row">
+                <div class="col">
+                    <span class="lead">
+                        <a class="btn btn-primary btn-lg" href="{% url "feature_edit" feature.id %}"
+                           role="button">Edit</a>
+                    </span>
+                    <span class="lead">
+                        <a class="btn btn-danger btn-lg" href="{% url 'feature_delete' feature.id %}" role="button">*Delete</a>
+                    </span>
+                    <div class="btn-group" role="group" aria-label="Feature Status Update Button">
+                        <button type="button" class="btn btn-info btn-lg">Status</button>
+                        <div class="btn-group" role="group">
+                            <button id="btnGroupDrop3" type="button" class="btn btn-info dropdown-toggle"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false"></button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop3" style="">
+                                <a class="dropdown-item update-feature-status-item" href="#" data-id="{{ feature.id }}"
+                                   data-action="Requested">Requested</a>
+                                <a class="dropdown-item update-feature-status-item" href="#" data-id="{{ feature.id }}"
+                                   data-action="Funded">Funded</a>
+                                <a class="dropdown-item update-feature-status-item" href="#" data-id="{{ feature.id }}"
+                                   data-action="Implementing">Implementing</a>
+                                <a class="dropdown-item update-feature-status-item" href="#" data-id="{{ feature.id }}"
+                                   data-action="Testing">Testing</a>
+                                <a class="dropdown-item update-feature-status-item" href="#" data-id="{{ feature.id }}"
+                                   data-action="Implemented">Implemented</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -90,35 +106,47 @@
     </div>
 
     <!-- Comment cards -->
-    <div class="list-group">
-        {% for comment in comments %}
+    <div class="row">
+        <div class="col">
+            <div class="list-group">
+                {% for comment in comments %}
 
-            <div class="list-group-item list-group-item-action flex-column align-items-start active mb-4">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">{{ comment.author }}</h5>
-                    <small>{{ comment.created }}</small>
-                </div>
-                <p class="mb-1 mt-4">{{ comment.comment|linebreaks }}</p>
+                    <div class="list-group-item list-group-item-action flex-column align-items-start active mb-4">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{ comment.author }}</h5>
+                            <small>{{ comment.created }}</small>
+                        </div>
+                        <p class="mb-1 mt-4">{{ comment.comment|linebreaks }}</p>
+                    </div>
+
+                {% empty %}
+                    <div class="alert alert-dismissible alert-secondary">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <h4 class="alert-heading">No Comments!</h4>
+                        <p class="mb-0">There are no comments yet... so cool you're all lost for words?</p>
+                    </div>
+
+                {% endfor %}
             </div>
-
-        {% empty %}
-            <div class="alert alert-dismissible alert-secondary">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <h4 class="alert-heading">No Comments!</h4>
-                <p class="mb-0">There are no comments yet... so cool you're all lost for words?</p>
-            </div>
-
-        {% endfor %}
+        </div>
     </div>
 
-    {% include 'pagination.html' with page=comments %}
+    <div class="row">
+        <div class="col">
+            {% include 'pagination.html' with page=comments %}
+        </div>
+    </div>
 
-    <form action="." method="POST">
-        <legend>Add a new comment</legend>
-        {{ feature_comment_form|crispy }}
-        {% csrf_token %}
-        <button class="btn btn-secondary mb-4" type="submit" value="Add comment">Add comment</button>
-    </form>
+    <div class="row">
+        <div class="col">
+            <form action="." method="POST">
+                <legend>Add a new comment</legend>
+                {{ feature_comment_form|crispy }}
+                {% csrf_token %}
+                <button class="btn btn-secondary mb-4" type="submit" value="Add comment">Add comment</button>
+            </form>
+        </div>
+    </div>
 
 {% endblock %}
 

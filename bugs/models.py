@@ -22,7 +22,8 @@ class Bug(models.Model):
         ('Resolved', 'Resolved'),
     ]
 
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='bugs_reported', on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='bugs_reported', null=True,
+                               on_delete=models.SET_NULL)
     title = models.CharField(max_length=250)
     description = models.TextField()
     severity = models.CharField(max_length=10, default='Low')
@@ -55,7 +56,8 @@ class BugComment(models.Model):
     # Many to one relationship: a bug can have many comments
     bug = models.ForeignKey(Bug, on_delete=models.CASCADE, related_name='comments')
     # Authenticated users can comment
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='bugs_commented', on_delete=models.CASCADE, blank=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='bugs_commented', on_delete=models.CASCADE,
+                               blank=True)
     comment = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.BooleanField(default=True)

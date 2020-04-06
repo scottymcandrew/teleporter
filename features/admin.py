@@ -6,6 +6,7 @@ from .models import Feature, FeatureComment
 class FeatureAdmin(admin.ModelAdmin):
     list_display = ['title', 'author', 'created', 'status']
     list_filter = ['created']
+    search_fields = ('title', 'description')
 
 
 @admin.register(FeatureComment)

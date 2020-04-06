@@ -34,7 +34,7 @@
 
     <!-- Features list -->
     {% for feature in features %}
-        {% if feature.status != 'Resolved' %}
+        {% if feature.status != 'Implemented' %}
             <div class="card mb-3">
                 <div class="card-header d-flex justify-content-between">
                     <i class="mt-1 text-info fas {% if feature.category == 'User-Requested' %}fa-users-cog{% elif feature.category == 'Roadmap' %}fa-star{% endif %} fa-lg" data-placement="bottom"

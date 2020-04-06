@@ -25,6 +25,7 @@
                 {{ user_form|crispy }}
                 {{ profile_form|crispy }}
                 {% csrf_token %}
+                <h5 class="text-danger">** Please ensure date of birth is in YYYY-MM-DD format e.g. 1970-03-05</h5>
                 <button class="btn btn-secondary" type="submit" value="Save Changes">Save your changes</button>
             </form>
         </div>

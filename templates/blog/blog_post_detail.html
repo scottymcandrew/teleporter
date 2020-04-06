@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+
+    <div class="jumbotron">
+        <h4>{{ post.title }}</h4>
+        <p>{{ post.description }}</p>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col-12">
+                <p>Author: {{ post.author }}</p>
+                <small>Posted on: {{ post.created }}</small>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <p>{{ post.text }}</p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

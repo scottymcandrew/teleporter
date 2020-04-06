@@ -6,6 +6,7 @@ from .models import Bug, BugComment
 class BugAdmin(admin.ModelAdmin):
     list_display = ['title', 'author', 'created', 'severity', 'status']
     list_filter = ['created']
+    search_fields = ('title', 'description')
 
 
 @admin.register(BugComment)

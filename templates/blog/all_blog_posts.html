@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Teleportation Inc. Blog{% endblock %}
+
+{% block content %}
+
+    <!-- Heading -->
+    <div class="row section-heading">
+        <div class="col-12">
+            <h4 class="ml-3">
+                Blog<br>
+                <small class="text-primary">Here you will find the latest ramblings from our mad scientists and
+                    founders</small>
+            </h4>
+        </div>
+    </div>
+
+    <!-- Blog posts -->
+    <div class="container-fluid">
+        <ul class="list-group">
+            {% for post in posts %}
+                <li class="list-group-item d-flex">
+                    <div class="row">
+                        <div class="col-3">
+                            <i class="fas fa-newspaper fa-2x text-secondary"></i>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <h5><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h5>
+                        </div>
+                        <div class="col-6 mt-3 mt-md-0">
+                            <p>{{ post.text|truncatewords:6 }}</p>
+                        </div>
+                        <div class="col-12">
+                            <span class="badge badge-info">By: <em>{{ post.author }}</em> on {{ post.created }}</span>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+    </ul>
+    </div>
+
+    <div class="row post-pages mt-3">
+        <div class="col-12 ml-3">
+            {% include 'pagination.html' with page=posts %}
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,6 +1,7 @@
 from django.urls import path
 from bugs import views
 
+
 urlpatterns = [
     path('', views.all_bugs, name='all_bugs'),
     path('all_bugs/', views.all_bugs, name='all_bugs'),

@@ -12,7 +12,8 @@
             <i class="fas fa-bug {% if bug.severity == 'Low' %}text-info{% elif bug.severity == 'Medium' %}text-warning{% elif bug.severity == 'High' %}text-secondary{% else %}text-danger{% endif %}"
                data-placement="bottom"
                data-toggle="tooltip" title=""
-               data-original-title="Severity: {{ bug.severity }}"></i> {{ bug.title }}</h4>
+               data-original-title="Severity: {{ bug.severity }}"></i>    {{ bug.title }}</h4>
+        <hr class="my-4">
         <p>{{ bug.description }}</p>
         <hr class="my-4">
         <div class="bug-details row">
@@ -110,6 +111,7 @@
                             <h5 class="mb-1">{{ comment.author }}</h5>
                             <small>{{ comment.created }}</small>
                         </div>
+                        <hr class="my-4">
                         <p class="mb-1 mt-4">{{ comment.comment|linebreaks }}</p>
                     </div>
 

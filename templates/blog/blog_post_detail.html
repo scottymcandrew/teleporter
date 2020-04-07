@@ -1,24 +1,75 @@
 {% extends 'base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
 
     <div class="jumbotron">
-        <h4>{{ post.title }}</h4>
-        <p>{{ post.description }}</p>
+        <h4><i class="fas fa-book-open text-secondary"></i> {{ post.title }}</h4>
         <hr class="my-4">
-        <div class="row">
-            <div class="col-12">
+        <p>{{ post.text }}</p>
+        <hr class="my-4">
+
+        <div class="row blog-post-detail-row">
+            <div class="col-8">
                 <p>Author: {{ post.author }}</p>
                 <small>Posted on: {{ post.created }}</small>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <p>{{ post.text }}</p>
+            <div class="col-4">
+                <div class="comment-container d-flex flex-column">
+{#                    <div class="mr-2 pt-2 pt-md-0">#}
+{#                        <i class="fas fa-comments fa-lg text-secondary"></i>#}
+{#                        <span class="badge badge-secondary badge-pill bg-primary">{{ post.comments.count }}</span>#}
+{#                    </div>#}
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Comment cards -->
+    <div class="row">
+        <div class="col">
+            <div class="list-group">
+                {% for comment in active_comments %}
+
+                    <div class="list-group-item list-group-item-action flex-column align-items-start active mb-4">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Posted by: {{ comment.name }}</h5>
+                            <small>{{ comment.created }}</small>
+                        </div>
+                        <hr class="my-4">
+                        <p class="mb-1 mt-4">{{ comment.comment|linebreaks }}</p>
+                    </div>
+
+                {% empty %}
+                    <div class="alert alert-dismissible alert-secondary">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <h4 class="alert-heading">No Comments!</h4>
+                        <p class="mb-0">There are no comments yet... I guess this post isn't terribly exciting?</p>
+                    </div>
+
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+        <div class="row">
+            <div class="col">
+                {% include 'pagination.html' with page=active_comments %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <form action="." method="POST">
+                    <legend>Add a new comment</legend>
+                    {{ post_comment_form|crispy }}
+                    {% csrf_token %}
+                    <button class="btn btn-secondary mb-4" type="submit" value="Add comment">Add comment</button>
+                </form>
+            </div>
+        </div>
 
 {% endblock %}

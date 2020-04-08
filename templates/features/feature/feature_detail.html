@@ -19,9 +19,9 @@
                 </h4>
             </div>
             <div class="col-md-2 col-sm-12"><i class="fas fa-thumbs-up fa-2x text-secondary"
-                                  data-placement="bottom"
-                                  data-toggle="tooltip" title=""
-                                  data-original-title="Contributions so far!"></i>
+                                               data-placement="bottom"
+                                               data-toggle="tooltip" title=""
+                                               data-original-title="Contributions so far!"></i>
                 <span class="badge badge-secondary badge-pill bg-primary">{{ feature.purchases }}</span>
             </div>
         </div>
@@ -41,28 +41,29 @@
             </div>
             <!-- Remove ability to purchase if feature is implemented -->
             {% if feature.status != 'Implemented' %}
-            <div class="col-md-6 col-sm-12 d-flex mt-3 mt-md-0">
-                <div class="form-group">
-                    <form method="POST" action="{% url 'add_to_cart' feature.id %}">
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="col">
-                                <input class="form-control form-control-sm mb-2" name="quantity" type="number" min="1"
-                                       max="99"
-                                       id="add-to-cart-form"
-                                       placeholder="Quantity">
-                                <label class="control-label text-center" for="add-to-cart-form">Want to
-                                    contribute? </label>
-                                <button class="card-link btn btn-success" type="submit"><i
-                                        class="fas fa-cart-plus fa-lg"
-                                        data-placement="bottom"
-                                        data-toggle="tooltip" title=""
-                                        data-original-title="Contrbute to this feature!"></i></button>
+                <div class="col-md-6 col-sm-12 d-flex mt-3 mt-md-0">
+                    <div class="form-group">
+                        <form method="POST" action="{% url 'add_to_cart' feature.id %}">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col">
+                                    <input class="form-control form-control-sm mb-2" name="quantity" type="number"
+                                           min="1"
+                                           max="99"
+                                           id="add-to-cart-form"
+                                           placeholder="Quantity">
+                                    <label class="control-label text-center" for="add-to-cart-form">Want to
+                                        contribute? </label>
+                                    <button class="card-link btn btn-success" type="submit"><i
+                                            class="fas fa-cart-plus fa-lg"
+                                            data-placement="bottom"
+                                            data-toggle="tooltip" title=""
+                                            data-original-title="Contrbute to this feature!"></i></button>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
-            </div>
             {% endif %}
         </div>
         <!-- Owner / Admin Control Panel -->

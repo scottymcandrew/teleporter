@@ -2,7 +2,7 @@ from django.test import TestCase
 from blog.forms import PostCommentForm
 
 
-class TestPostCommentForm(TestCase):
+class TestForms(TestCase):
     """
     Test that we can create a new Post Comment Form
     """

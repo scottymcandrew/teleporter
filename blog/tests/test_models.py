@@ -4,7 +4,7 @@ from django.test import TestCase
 from blog.models import Post, PostComment
 
 
-class MyTests(TestCase):
+class TestModels(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.user = User.objects.create_user(username='test', password='test123')

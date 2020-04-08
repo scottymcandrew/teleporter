@@ -14,6 +14,7 @@ class Post(models.Model):
                             unique_for_date='created')
     text = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
+    # Future use: adding images to posts
     photo = models.ImageField(upload_to='blog/%Y/', blank=True)
 
     class Meta:

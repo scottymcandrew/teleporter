@@ -39,6 +39,8 @@
                 </p>
                 <small>Created by: <strong>{{ feature.author }}</strong>, on {{ feature.created }}</small>
             </div>
+            <!-- Remove ability to purchase if feature is implemented -->
+            {% if feature.status != 'Implemented' %}
             <div class="col-md-6 col-sm-12 d-flex mt-3 mt-md-0">
                 <div class="form-group">
                     <form method="POST" action="{% url 'add_to_cart' feature.id %}">
@@ -61,6 +63,7 @@
                     </form>
                 </div>
             </div>
+            {% endif %}
         </div>
         <!-- Owner / Admin Control Panel -->
         {% if request.user == feature.author or request.user.is_staff %}

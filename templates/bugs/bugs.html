@@ -36,6 +36,7 @@
     <div class="container-fluid bug-list-container">
         <ul class="list-group">
             {% for bug in bugs %}
+                <!-- Bugs will include resolved until they are archived by site admins -->
                 {% if not bug.archived %}
                     <li class="list-group-item">
                         <div class="row bug-list-item-container">

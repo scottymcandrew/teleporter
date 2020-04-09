@@ -26,11 +26,11 @@ class Feature(models.Model):
     title = models.CharField(max_length=250)
     description = models.TextField()
     created = models.DateTimeField(auto_now_add=True, db_index=True)
-    status = models.CharField(max_length=12, default='Requested')
-    when_implemented = models.DateTimeField(auto_now_add=False, null=True)
+    status = models.CharField(max_length=12, default='Requested', choices=FEATURE_STATUS)
+    when_implemented = models.DateTimeField(auto_now_add=False, null=True, blank=True)
     price = models.DecimalField(max_digits=6, decimal_places=2, default=50.00)
     purchases = models.DecimalField(max_digits=1000, decimal_places=0, default=0)
-    category = models.CharField(max_length=16, default='User-Requested', blank=True)
+    category = models.CharField(max_length=16, default='User-Requested', blank=True, choices=FEATURE_CATEGORY)
     funders = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='feature_funders', blank=True)
 
     def get_absolute_url(self):

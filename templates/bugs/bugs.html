@@ -79,12 +79,10 @@
                             <div class="col-12 col-md-6">
                                 <span class="badge badge-primary">Created: {{ bug.created }}</span>
                             </div>
-                            <div class="col-11 col-md-2">
+                            <div class="col-12 col-md-3">
                                 <span class="badge badge-info">By: <em>{{ bug.author }}</em></span>
-                            </div>
-                            <div class="col-1">
                                 {% thumbnail bug.author.profile.photo "24x24" crop="center" as im %}
-                                    <a class="nav-link pt-0 pb-0 pl-0 pr-1" href="#">
+                                    <a href="#">
                                         <img class="rounded" alt="Profile Picture" src="{{ im.url }}"
                                              width="{{ im.width }}"
                                              height="{{ im.height }}">

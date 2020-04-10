@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load thumbnail %}
+
 {% block title %}Features{% endblock %}
 
 {% block content %}
@@ -24,18 +26,19 @@
                class="btn btn-secondary"
                role="button"><i class="fas fa-plus-circle fa-2x"></i></a>
             <div class="btn-group" role="group" aria-label="Feature Filter Category">
-                        <button type="button" class="btn btn-success btn-lg">Category</button>
-                        <div class="btn-group" role="group">
-                            <button id="btnGroupDrop3" type="button" class="btn btn-success dropdown-toggle"
-                                    data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false"></button>
-                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop3" style="">
-                                <a class="dropdown-item update-feature-status-item" href="{% url 'all_features' 'all' %}">All</a>
-                                <a class="dropdown-item update-feature-status-item" href="{% url 'all_features' 'roadmap' %}">Roadmap</a>
-                                <a class="dropdown-item update-feature-status-item" href="{% url 'all_features' 'user' %}">User-Requested</a>
-                            </div>
-                        </div>
+                <button type="button" class="btn btn-success btn-lg">Category</button>
+                <div class="btn-group" role="group">
+                    <button id="btnGroupDrop3" type="button" class="btn btn-success dropdown-toggle"
+                            data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false"></button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop3" style="">
+                        <a class="dropdown-item update-feature-status-item"
+                           href="{% url 'all_features' 'all' %}">All</a>
+                        <a class="dropdown-item update-feature-status-item" href="{% url 'all_features' 'roadmap' %}">Roadmap</a>
+                        <a class="dropdown-item update-feature-status-item" href="{% url 'all_features' 'user' %}">User-Requested</a>
                     </div>
+                </div>
+            </div>
             <a href="{% url 'feature_search' %}"
                data-placement="bottom"
                data-toggle="tooltip" title=""
@@ -50,7 +53,8 @@
         {% if feature.status != 'Implemented' %}
             <div class="card mb-3">
                 <div class="card-header d-flex justify-content-between">
-                    <i class="mt-1 text-info fas {% if feature.category == 'User-Requested' %}fa-users-cog{% elif feature.category == 'Roadmap' %}fa-star{% endif %} fa-lg" data-placement="bottom"
+                    <i class="mt-1 text-info fas {% if feature.category == 'User-Requested' %}fa-users-cog{% elif feature.category == 'Roadmap' %}fa-star{% endif %} fa-lg"
+                       data-placement="bottom"
                        data-toggle="tooltip" title=""
                        data-original-title="Contributed by {% if feature.category == 'User-Requested' %}the User Community. Awesome!{% elif feature.category == 'Roadmap' %}the Teleportation Inc. Scientists!{% endif %}"></i>
                     <h5 class="ml-2 mr-2"><a href="{% url "feature_detail" feature.id %}">{{ feature.title }}</a></h5>
@@ -60,7 +64,16 @@
                     <h5 class="card-title">Status: <span
                             class="badge badge-{% if feature.status == 'Requested' %}secondary{% elif feature.status == 'Funded' %}primary{% elif feature.status == 'Implementing' %}warning{% elif feature.status == 'Testing' %}info{% else %}success{% endif %}">{{ feature.status }}</span>
                     </h5>
-                    <h6 class="card-subtitle text-muted">{{ feature.author }}, {{ feature.created }}</h6>
+                    <h6 class="card-subtitle text-muted">
+                        {% thumbnail feature.author.profile.photo "50x50" crop="center" as im %}
+                            <a class="" href="#">
+                                <img class="rounded" alt="Profile Picture" src="{{ im.url }}"
+                                     width="{{ im.width }}"
+                                     height="{{ im.height }}">
+                            </a>
+                        {% endthumbnail %}
+                        {{ feature.author }}, {{ feature.created }}
+                    </h6>
                 </div>
                 <div class="card-body">
                     <p class="card-text">{{ feature.description|truncatewords:25 }}</p>

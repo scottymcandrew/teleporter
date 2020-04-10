@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load staticfiles %}
+{% load thumbnail %}
 {% load crispy_forms_tags %}
 
 {% block title %}Feature: {{ feature.title }}{% endblock %}
@@ -37,7 +38,16 @@
                 <p>Current status: <span
                         class="badge status-badge badge-{% if feature.status == 'Requested' %}secondary{% elif feature.status == 'Implementing' %}warning{% elif feature.status == 'Testing' %}info{% else %}success{% endif %}">{{ feature.status }}</span>
                 </p>
-                <small>Created by: <strong>{{ feature.author }}</strong>, on {{ feature.created }}</small>
+                <small>
+                    {% thumbnail feature.author.profile.photo "50x50" crop="center" as im %}
+                        <a class="" href="#">
+                            <img class="rounded" alt="Profile Picture" src="{{ im.url }}"
+                                 width="{{ im.width }}"
+                                 height="{{ im.height }}">
+                        </a>
+                    {% endthumbnail %}
+                    Created by: <strong>{{ feature.author }}</strong><br>{{ feature.created }}
+                </small>
             </div>
             <!-- Remove ability to purchase if feature is implemented -->
             {% if feature.status != 'Implemented' %}
@@ -117,7 +127,16 @@
 
                     <div class="list-group-item list-group-item-action flex-column align-items-start active mb-4">
                         <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">{{ comment.author }}</h5>
+                            <h5 class="mb-1">
+                                {% thumbnail comment.author.profile.photo "50x50" crop="center" as im %}
+                                    <a href="#">
+                                        <img class="rounded" alt="Profile Picture" src="{{ im.url }}"
+                                             width="{{ im.width }}"
+                                             height="{{ im.height }}">
+                                    </a>
+                                {% endthumbnail %}
+                                {{ comment.author }}
+                            </h5>
                             <small>{{ comment.created }}</small>
                         </div>
                         <hr class="my-4">

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load staticfiles %}
+{% load thumbnail %}
 
 {% block title %}User Dashboard{% endblock %}
 
@@ -9,10 +10,17 @@
     <!-- Heading -->
     <div class="row section-heading">
         <div class="col-12">
-            <h2>
+            <h4>
+                {% thumbnail request.user.profile.photo "64x64" crop="center" as im %}
+                    <a class="nav-link" href="{% url 'user_dashboard' %}">
+                        <img class="rounded" alt="Profile Picture" src="{{ im.url }}" width="{{ im.width }}"
+                             height="{{ im.height }}">
+                    </a>
+                {% endthumbnail %}
                 {{ request.user }}'s Dashboard<br>
-                <small class="text-primary">Here you will be able to update your details and view your statistics</small>
-            </h2>
+                <small class="text-primary">Here you will be able to update your details and view your
+                    statistics</small>
+            </h4>
         </div>
     </div>
 
@@ -41,10 +49,13 @@
             <ul class="list-group list-group-flush">
                 {% if bug %}
                     {% for bug in my_voted_bugs %}
-                        <li class="list-group-item text-center text-secondary"><a href="{% url 'bug_detail' bug.id %}">{{ bug }}</a></li>
+                        <li class="list-group-item text-center text-secondary"><a
+                                href="{% url 'bug_detail' bug.id %}">{{ bug }}</a></li>
                     {% endfor %}
                 {% else %}
-                    <li class="list-group-item text-primary text-center"><i class="fas fa-smile-wink fa-lg"></i> You haven't had to raise any bugs. Fantastic!</li>
+                    <li class="list-group-item text-primary text-center"><i class="fas fa-smile-wink fa-lg"></i> You
+                        haven't had to raise any bugs. Fantastic!
+                    </li>
                 {% endif %}
             </ul>
         </div>

@@ -1,13 +1,5 @@
 /* Custom Stylesheet */
 
-/*body {*/
-/*    padding-top: 100px;*/
-/*}*/
-
-/*.main-content-container {*/
-/*    padding-top: 80px;*/
-/*}*/
-
 /* Header Parallax Element Style*/
 .parallax {
     min-height: 600px;
@@ -16,22 +8,8 @@
     background-position: 50% 50%;
 }
 
-/* Paragraph for Parallax Section */
-.parallax p {
-    font-size: 24px;
-    text-align: center;
-}
-
 .about-us-card-text {
     font-size: 18px!important;
-}
-
-/* Heading for Parallax Section */
-.parallax h1 {
-    font-size: 60px;
-    text-align: center;
-    padding-top: 60px;
-    line-height: 100px;
 }
 
 /* Remove whitespace from bottom Parallax jumbotron */
@@ -60,12 +38,18 @@
     margin-top: 15px;
 }
 
-/*.bug-list-item-footer {*/
-/*    margin-top: 15px;*/
-/*    margin-left: 5px;*/
-/*}*/
-
 .fa-lg,
 .fa-2x {
   vertical-align: middle;
+}
+
+@media screen and (max-width: 768px) {
+    div.parallax h1 {
+        font-size:2rem;
+    }
+
+    div.parallax p,
+    div.parallax a {
+        font-size:1rem;
+    }
 }

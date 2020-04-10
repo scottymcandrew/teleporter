@@ -71,7 +71,7 @@
             {% if request.user.is_authenticated %}
                 <li class="nav-item">
                     {% thumbnail request.user.profile.photo "24x24" crop="center" as im %}
-                        <a class="nav-link" href="{{ request.user.profile.photo.url }}">
+                        <a class="nav-link" href="{% url 'user_dashboard' %}">
                             <img alt="Profile Picture" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
                         </a>
                     {% endthumbnail %}

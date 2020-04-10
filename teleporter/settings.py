@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'bootstrap_pagination',
     'storages',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
@@ -164,7 +165,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIAFILES_LOCATION = 'media'
 DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
 
 # For use in Django's in-built authentication views.

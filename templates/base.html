@@ -29,26 +29,26 @@
 
     <div class="collapse navbar-collapse" id="navbarColor02">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
+            <li class="nav-item {% if "/about/" in request.path %}active{% endif %}">
                 <a class="nav-link" data-placement="bottom" data-toggle="tooltip" title=""
                    data-original-title="About Teleportation Inc." href="{% url "about_us" %}"><i
                         class="fas fa-info-circle fa-lg"></i></a>
             </li>
-            <li>
+            <li class="nav-item {% if "/blog/" in request.path %}active{% endif %}">
                 <a class="nav-link" data-placement="bottom" data-toggle="tooltip" title=""
                    data-original-title="Blog" href="{% url "all_blog_posts" %}"><i class="fas fa-blog fa-lg"></i></a>
             </li>
-            <li>
+            <li class="nav-item {% if "/service_stats/" in request.path %}active{% endif %}">
                 <a class="nav-link" data-placement="bottom" data-toggle="tooltip" title=""
                    data-original-title="Service Stats" href="{% url "service_stats" %}"><i
                         class="fas fa-chart-bar fa-lg"></i></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {% if "/bugs/" in request.path %}active{% endif %}">
                 <a class="nav-link" data-placement="bottom" data-toggle="tooltip" title=""
                    data-original-title="Bugs" href="{% url "all_bugs" %}"><i
                         class="fas fa-bug fa-lg"></i></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {% if "/features/" in request.path %}active{% endif %}">
                 <a class="nav-link" data-placement="bottom" data-toggle="tooltip" title=""
                    data-original-title="Features" href="{% url "all_features" %}"><i
                         class="fas fa-cogs fa-lg"></i></a>
@@ -62,7 +62,7 @@
                     {% endif %}
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {% if "/accounts/" in request.path %}active{% endif %}">
                 <a class="nav-link" data-placement="bottom" data-toggle="tooltip" title=""
                    data-original-title="My Dashboard / Profile" href="{% url "user_dashboard" %}"><i
                         class="fas fa-tachometer-alt fa-lg"></i></a>

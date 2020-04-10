@@ -14,8 +14,13 @@ from .forms import CreateFeatureReport, FeatureCommentForm, SearchForm
 
 
 @login_required
-def all_features(request):
-    feature_list = Feature.objects.all().order_by('-created')
+def all_features(request, category='all'):
+    if category == 'all':
+        feature_list = Feature.objects.all().order_by('-created')
+    elif category == 'roadmap':
+        feature_list = Feature.roadmap.all().order_by('-created')
+    elif category == 'user':
+        feature_list = Feature.user_requested.all().order_by('-created')
     paginator = Paginator(feature_list, 4)
     page = request.GET.get('page')
     try:
@@ -37,7 +42,6 @@ def feature_detail(request, id):
 
     # Comments
     comments = feature.comments.all()
-
     paginator = Paginator(comments, 4)
     page = request.GET.get('page')
     try:

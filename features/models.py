@@ -3,6 +3,18 @@ from django.conf import settings
 from django.urls import reverse
 
 
+class UserRequestedManager(models.Manager):
+    def get_queryset(self):
+        return super(UserRequestedManager, self).get_queryset() \
+            .filter(category='User-Requested')
+
+
+class RoadmapManager(models.Manager):
+    def get_queryset(self):
+        return super(RoadmapManager, self).get_queryset() \
+            .filter(category='Roadmap')
+
+
 class Feature(models.Model):
     """
     Model to hold details of features requested
@@ -32,6 +44,10 @@ class Feature(models.Model):
     purchases = models.DecimalField(max_digits=1000, decimal_places=0, default=0)
     category = models.CharField(max_length=16, default='User-Requested', blank=True, choices=FEATURE_CATEGORY)
     funders = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='feature_funders', blank=True)
+
+    objects = models.Manager()  # The default manager.
+    user_requested = UserRequestedManager()  # Our custom manager to retrieve User-Requested features.
+    roadmap = RoadmapManager()  # Our custom manager to retrieve Roadmap features.
 
     def get_absolute_url(self):
         return reverse('feature_detail', args=[self.id])

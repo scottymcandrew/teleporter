@@ -23,6 +23,19 @@
                data-original-title="Request New Feature"
                class="btn btn-secondary"
                role="button"><i class="fas fa-plus-circle fa-2x"></i></a>
+            <div class="btn-group" role="group" aria-label="Feature Filter Category">
+                        <button type="button" class="btn btn-success btn-lg">Category</button>
+                        <div class="btn-group" role="group">
+                            <button id="btnGroupDrop3" type="button" class="btn btn-success dropdown-toggle"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false"></button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop3" style="">
+                                <a class="dropdown-item update-feature-status-item" href="{% url 'all_features' 'all' %}">All</a>
+                                <a class="dropdown-item update-feature-status-item" href="{% url 'all_features' 'roadmap' %}">Roadmap</a>
+                                <a class="dropdown-item update-feature-status-item" href="{% url 'all_features' 'user' %}">User-Requested</a>
+                            </div>
+                        </div>
+                    </div>
             <a href="{% url 'feature_search' %}"
                data-placement="bottom"
                data-toggle="tooltip" title=""
